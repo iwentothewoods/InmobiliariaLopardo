@@ -1,12 +1,15 @@
-namespace web.Models;
+namespace Proyecto.Models;
 
-public class Persona
+public abstract class Persona
 {
+    public string Nombre {get; set;} = "";
 
-    public int Id { get; set; }
-    public String Nombre { get; set; }
-    public String Apellido { get; set; }
-    public String Dni { get; set; }
-    public String Email { get; set; }
-    public String Telefono { get; set; }
+    public string Apellido {get; set;} = "";
+
+    public string Dni {get; set;} = "";
+
+    public string Email {get; set;} = "";
+
+    public string Telefono {get; set;} = "";
+
 }

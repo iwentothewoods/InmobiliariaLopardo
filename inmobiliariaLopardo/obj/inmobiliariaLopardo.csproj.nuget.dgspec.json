@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Usuario\\Desktop\\Software\\ZugZug\\.Net\\inmobiliariaLopardo\\inmobiliariaLopardo.csproj": {}
+    "C:\\Users\\Usuario\\Documents\\GitHub\\InmobiliariaLopardo\\inmobiliariaLopardo\\inmobiliariaLopardo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Usuario\\Desktop\\Software\\ZugZug\\.Net\\inmobiliariaLopardo\\inmobiliariaLopardo.csproj": {
+    "C:\\Users\\Usuario\\Documents\\GitHub\\InmobiliariaLopardo\\inmobiliariaLopardo\\inmobiliariaLopardo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Software\\ZugZug\\.Net\\inmobiliariaLopardo\\inmobiliariaLopardo.csproj",
+        "projectUniqueName": "C:\\Users\\Usuario\\Documents\\GitHub\\InmobiliariaLopardo\\inmobiliariaLopardo\\inmobiliariaLopardo.csproj",
         "projectName": "inmobiliariaLopardo",
-        "projectPath": "C:\\Users\\Usuario\\Desktop\\Software\\ZugZug\\.Net\\inmobiliariaLopardo\\inmobiliariaLopardo.csproj",
+        "projectPath": "C:\\Users\\Usuario\\Documents\\GitHub\\InmobiliariaLopardo\\inmobiliariaLopardo\\inmobiliariaLopardo.csproj",
         "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuario\\Desktop\\Software\\ZugZug\\.Net\\inmobiliariaLopardo\\obj\\",
+        "outputPath": "C:\\Users\\Usuario\\Documents\\GitHub\\InmobiliariaLopardo\\inmobiliariaLopardo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"

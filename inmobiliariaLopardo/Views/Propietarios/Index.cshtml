@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Propietario>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Propietarios</h1>
+
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>@item.Nombre</li>
+            <li>@item.Apellido</li>
+        }
+    </ul>
+</div>

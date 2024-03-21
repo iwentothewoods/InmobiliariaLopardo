@@ -83,3 +83,15 @@ C:\Users\Usuario\Desktop\Software\ZugZug\.Net\inmobiliariaLopardo\obj\Debug\net8
 C:\Users\Usuario\Desktop\Software\ZugZug\.Net\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.pdb
 C:\Users\Usuario\Desktop\Software\ZugZug\.Net\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.genruntimeconfig.cache
 C:\Users\Usuario\Desktop\Software\ZugZug\.Net\inmobiliariaLopardo\obj\Debug\net8.0\ref\inmobiliariaLopardo.dll
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.csproj.AssemblyReference.cache
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.AssemblyInfoInputs.cache
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.AssemblyInfo.cs
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.RazorAssemblyInfo.cache
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.RazorAssemblyInfo.cs
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.sourcelink.json
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.dll
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\refint\inmobiliariaLopardo.dll
+C:\Users\Usuario\Documents\GitHub\InmobiliariaLopardo\inmobiliariaLopardo\obj\Debug\net8.0\inmobiliariaLopardo.pdb
