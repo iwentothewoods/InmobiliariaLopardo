@@ -1,14 +1,16 @@
 using MySql.Data.MySqlClient;
 using System.Data;
 namespace Proyecto.Models;
+using Microsoft.Extensions.Configuration;
+
 
 public class RepositorioPropietarios
 {
-    readonly string connectionString = "Server=localhost;User=root;Password=contraseña;Database=InmobiliariaLopardo;";
+    readonly string connectionString = "Server=localhost;User=root;Password=;Database=InmobiliariaLopardo;";
 
     public RepositorioPropietarios()
     {
-
+        
     }
 
     public IList<Propietario> GetPropietarios()
