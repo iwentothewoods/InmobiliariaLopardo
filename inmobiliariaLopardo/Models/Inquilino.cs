@@ -1,4 +1,4 @@
-namespace Proyecto.Models;
+namespace inmobiliariaLopardo.Models;
 
 public class Inquilino : Persona
 {

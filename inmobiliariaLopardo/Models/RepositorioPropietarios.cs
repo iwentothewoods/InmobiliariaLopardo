@@ -1,6 +1,6 @@
 using MySql.Data.MySqlClient;
 using System.Data;
-namespace Proyecto.Models;
+namespace inmobiliariaLopardo.Models;
 using Microsoft.Extensions.Configuration;
 
 

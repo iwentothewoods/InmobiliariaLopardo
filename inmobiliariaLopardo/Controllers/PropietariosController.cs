@@ -1,6 +1,6 @@
 using System.Windows.Markup;
 using Microsoft.AspNetCore.Mvc;
-using Proyecto.Models;
+using inmobiliariaLopardo.Models;
 
 namespace inmobiliariaLopardo.Controllers;
 
