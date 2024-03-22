@@ -1,0 +1,31 @@
+CREATE TABLE propietarios (Id INTEGER AUTO_INCREMENT PRIMARY KEY, Nombre VARCHAR(20) NOT NULL, Apellido VARCHAR(20) NOT NULL, Dni VARCHAR(10) NOT NULL, Email VARCHAR(50) NOT NULL, Telefono VARCHAR(20) NOT NULL);
+
+CREATE TABLE inquilinos (Id INTEGER AUTO_INCREMENT PRIMARY KEY, Nombre VARCHAR(20) NOT NULL, Apellido VARCHAR(20) NOT NULL, Dni VARCHAR(10) NOT NULL, Email VARCHAR(50) NOT NULL, Telefono VARCHAR(20) NOT NULL);
+
+CREATE TABLE pagos (Id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL, IdInquilino INTEGER NOT NULL, FOREIGN KEY (IdInquilino) REFERENCES inquilinos(Id), fechaPago DATE NOT NULL, Importe DOUBLE NOT NULL);
+
+CREATE TABLE inmuebles (
+    Id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    PropietarioId INT NOT NULL,
+    FOREIGN KEY (PropietarioId) REFERENCES propietarios (Id),
+    Direccion VARCHAR(255) NOT NULL,
+    Uso INT NOT NULL,
+    Tipo INT NOT NULL,
+    Ambientes INT,
+    Latitud DOUBLE,
+    Longitud DOUBLE,
+    Precio DOUBLE NOT NULL,
+    Activo BOOLEAN NOT NULL,
+    Disponible BOOLEAN NOT NULL
+);
+
+CREATE TABLE contratos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    InquilinoId INT,
+    InmuebleId INT,
+    FechaInicio DATE,
+    FechaFin DATE,
+    FechaTerminacion DATE,
+    FOREIGN KEY (InquilinoiD) REFERENCES Inquilinos(id),
+    FOREIGN KEY (InmuebleiD) REFERENCES Inmuebles(Id)
+);

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 public class RepositorioInquilinos
 {
-    readonly string connectionString = "Server=localhost;User=root;Password=;Database=InmobiliariaLopardo;";
+    readonly string connectionString = "Server=localhost;User=root;Password=;Database=inmobiliariaLunaDante;";
 
     public RepositorioInquilinos()
     {
@@ -75,7 +75,7 @@ public class RepositorioInquilinos
         return inquilinos;
     }
 
-    public int Alta(Inquilino p)
+    public int Alta(Inquilino i)
     {
         int res = -1;
         using (var connection = new MySqlConnection(connectionString))
@@ -87,15 +87,15 @@ public class RepositorioInquilinos
             using (var command = new MySqlCommand(sql, connection))
             {
                 command.CommandType = CommandType.Text;
-                command.Parameters.AddWithValue("@nombre", p.Nombre);
-                command.Parameters.AddWithValue("@apellido", p.Apellido);
-                command.Parameters.AddWithValue("@dni", p.Dni);
-                command.Parameters.AddWithValue("@telefono", p.Telefono);
-                command.Parameters.AddWithValue("@email", p.Email);
+                command.Parameters.AddWithValue("@nombre", i.Nombre);
+                command.Parameters.AddWithValue("@apellido", i.Apellido);
+                command.Parameters.AddWithValue("@dni", i.Dni);
+                command.Parameters.AddWithValue("@telefono", i.Telefono);
+                command.Parameters.AddWithValue("@email", i.Email);
 
                 connection.Open();
                 res = Convert.ToInt32(command.ExecuteScalar());
-                p.Id = res;
+                i.Id = res;
                 connection.Close();
             }
         }

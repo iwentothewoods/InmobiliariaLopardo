@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2024 at 03:41 PM
+-- Generation Time: Mar 22, 2024 at 06:13 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `inmobiliarialopardo`
+-- Database: `inmobiliarialunadante`
 --
 
 -- --------------------------------------------------------
@@ -33,7 +33,7 @@ CREATE TABLE `contratos` (
   `InmuebleId` int(11) DEFAULT NULL,
   `FechaInicio` date DEFAULT NULL,
   `FechaFin` date DEFAULT NULL,
-  `Monto` double DEFAULT NULL
+  `FechaTerminacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -71,6 +71,22 @@ CREATE TABLE `inquilinos` (
   `Telefono` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `inquilinos`
+--
+
+INSERT INTO `inquilinos` (`Id`, `Nombre`, `Apellido`, `Dni`, `Email`, `Telefono`) VALUES
+(1, 'Laura', 'Gómez', '36547892', 'laura.gomez@email.com', '3301547856'),
+(2, 'Martín', 'Pérez', '21547893', 'martin.perez@email.com', '2236985478'),
+(3, 'Ana', 'Sánchez', '35478963', 'ana.sanchez@email.com', '2987451236'),
+(4, 'Diego', 'Fernández', '47852369', 'diego.fernandez@email.com', '2863598745'),
+(5, 'Lucía', 'Martínez', '65412378', 'lucia.martinez@email.com', '3321456987'),
+(6, 'Javier', 'González', '78965231', 'javier.gonzalez@email.com', '2665987412'),
+(7, 'María', 'López', '56478923', 'maria.lopez@email.com', '3302587412'),
+(8, 'Carlos', 'Hernández', '48569321', 'carlos.hernandez@email.com', '2236987412'),
+(9, 'Sofía', 'García', '23569874', 'sofia.garcia@email.com', '2987451236'),
+(10, 'Pedro', 'Rodríguez', '98654721', 'pedro.rodriguez@email.com', '2865987412');
+
 -- --------------------------------------------------------
 
 --
@@ -104,7 +120,16 @@ CREATE TABLE `propietarios` (
 --
 
 INSERT INTO `propietarios` (`Id`, `Nombre`, `Apellido`, `Dni`, `Email`, `Telefono`) VALUES
-(1, 'Juan', 'Ramos', '26594872', 'correo@ejemplo.com', '2664587496');
+(1, 'María', 'González', '35478965', 'maria.gonzalez@email.com', '3301547856'),
+(2, 'Pedro', 'López', '21546897', 'pedro.lopez@email.com', '2236982358'),
+(3, 'Ana', 'Martínez', '38974521', 'ana.martinez@email.com', '2987451202'),
+(4, 'Carlos', 'Sánchez', '47852369', 'carlos.sanchez@email.com', '2863520012'),
+(5, 'Laura', 'Díaz', '65412378', 'laura.diaz@email.com', '3321469847'),
+(6, 'Pablo', 'Hernández', '78965231', 'pablo.hernandez@email.com', '2665987412'),
+(7, 'Luisa', 'Fernández', '56478923', 'luisa.fernandez@email.com', '3302587412'),
+(8, 'Carmen', 'García', '23569874', 'carmen.garcia@email.com', '2987451236'),
+(9, 'Jorge', 'Pérez', '48569321', 'jorge.perez@email.com', '2236987412'),
+(10, 'Diego', 'Rodríguez', '36547892', 'diego.rodriguez@email.com', '2865987412');
 
 --
 -- Indexes for dumped tables
@@ -164,7 +189,7 @@ ALTER TABLE `inmuebles`
 -- AUTO_INCREMENT for table `inquilinos`
 --
 ALTER TABLE `inquilinos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pagos`
@@ -176,7 +201,7 @@ ALTER TABLE `pagos`
 -- AUTO_INCREMENT for table `propietarios`
 --
 ALTER TABLE `propietarios`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables

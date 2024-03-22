@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 public class RepositorioPropietarios
 {
-    readonly string connectionString = "Server=localhost;User=root;Password=;Database=InmobiliariaLopardo;";
+    readonly string connectionString = "Server=localhost;User=root;Password=;Database=inmobiliariaLunaDante;";
 
     public RepositorioPropietarios()
     {
