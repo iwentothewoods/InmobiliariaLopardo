@@ -22,108 +22,80 @@ public class PropietariosController : Controller
         return View(lista);
     }
 
-    /*public IActionResult Editar(int id)
+    // GET: Propietarios/Crear
+    public ActionResult Crear()
     {
-        if (id > 0)
-        {
-            RepositorioPropietarios rp = new RepositorioPropietarios();
-            var propietario = rp.GetPropietario(id);
-            return View(propietario);
-        }
-        else
-        {
-            return View();
-        }
-    }*/
-
-    /*public IActionResult Guardar(Propietario propietario)
-    {
-        RepositorioPropietarios rp = new RepositorioPropietarios();
-        rp.GuardarPropietario(propietario);
-        return RedirectToAction(nameof(Index));
+        return View();
     }
 
-    public IActionResult Modificar(Propietario propietario)
+    // POST: Propietarios/Crear
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult Crear(Propietario p)
     {
-        RepositorioPropietarios rp = new RepositorioPropietarios();
-        rp.ModificarPropietario(propietario);
-        return RedirectToAction(nameof(Index));
-    }*/
-
-     // GET: Propietarios/Crear
-        public ActionResult Crear()
+        try
+        {
+            RepositorioPropietarios repo = new RepositorioPropietarios();
+            repo.Alta(p);
+            return RedirectToAction(nameof(Index));
+        }
+        catch
         {
             return View();
         }
+    }
 
-        // POST: Propietarios/Crear
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Crear(Propietario p)
-        {
-            try
-            {
-                RepositorioPropietarios repo = new RepositorioPropietarios();
-                repo.Alta(p);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+    // GET: Propietarios/Edit/5
+    public ActionResult Editar(int id)
+    {
+        RepositorioPropietarios repo = new RepositorioPropietarios();
+        var propietario = repo.GetPropietario(id);
+        return View(propietario);
+    }
 
-        // GET: Propietarios/Edit/5
-        public ActionResult Editar(int id)
+
+    // POST: Propietarios/Edit/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult Editar(int id, Propietario p)
+    {
+        try
         {
             RepositorioPropietarios repo = new RepositorioPropietarios();
-            var propietario = repo.GetPropietario(id);
-            return View(propietario);
+            repo.Modificacion(p);
+            return RedirectToAction(nameof(Index));
         }
-
-
-        // POST: Propietarios/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Editar(int id, Propietario p)
+        catch
         {
-            try
-            {
-                RepositorioPropietarios repo = new RepositorioPropietarios();
-                repo.Modificacion(p);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
+    }
 
-        // GET: Propietarios/Delete/5
-        public ActionResult Eliminar(int id)
+    // GET: Propietarios/Delete/5
+    public ActionResult Eliminar(int id)
+    {
+        RepositorioPropietarios repo = new RepositorioPropietarios();
+        var propietario = repo.GetPropietario(id);
+        return View(propietario);
+    }
+
+    // POST: Propietarios/Delete/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult Eliminar(int id, Propietario p)
+    {
+        try
         {
             RepositorioPropietarios repo = new RepositorioPropietarios();
-            var propietario = repo.GetPropietario(id);
-            return View(propietario);
+            repo.Baja(id);
+            TempData["Mensaje"] = "Eliminación realizada correctamente";
+            return RedirectToAction(nameof(Index));
         }
-
-        // POST: Propietarios/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Eliminar(int id, Propietario p)
+        catch
         {
-            try
-            {
-                RepositorioPropietarios repo = new RepositorioPropietarios();
-                repo.Baja(id);
-                TempData["Mensaje"] = "Eliminación realizada correctamente";
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
+    }
 }
 
 

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 public class RepositorioPropietarios
 {
+
     readonly string connectionString = "Server=localhost;User=root;Password=;Database=inmobiliariaLunaDante;";
 
     public RepositorioPropietarios()
@@ -87,7 +88,7 @@ public class RepositorioPropietarios
             var sql = @$"INSERT INTO propietarios ({nameof(Propietario.Nombre)}, {nameof(Propietario.Apellido)}, {nameof(Propietario.Dni)}, 
             {nameof(Propietario.Email)}, {nameof(Propietario.Telefono)}) VALUES (@{nameof(Propietario.Nombre)}, @{nameof(Propietario.Apellido)}, 
             @{nameof(Propietario.Dni)}, @{nameof(Propietario.Email)}, @{nameof(Propietario.Telefono)}); SELECT LAST_INSERT_ID();";
-            
+
             using (var command = new MySqlCommand(sql, connection))
             {
                 command.CommandType = CommandType.Text;
@@ -154,4 +155,27 @@ public class RepositorioPropietarios
             }
         }
     }
+
+    public List<int> ObtenerListaIDsPropietarios()
+    {
+        List<int> listaIDs = new List<int>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = $"SELECT {nameof(Propietario.Id)} FROM propietarios";
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaIDs.Add(reader.GetInt32(nameof(Propietario.Id)));
+                    }
+                }
+            }
+        }
+        return listaIDs;
+    }
+
+
 }
