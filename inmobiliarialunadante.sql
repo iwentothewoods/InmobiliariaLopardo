@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2024 at 06:13 PM
+-- Generation Time: Apr 02, 2024 at 07:21 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -55,6 +55,24 @@ CREATE TABLE `inmuebles` (
   `Activo` tinyint(1) NOT NULL,
   `Disponible` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `inmuebles`
+--
+
+INSERT INTO `inmuebles` (`Id`, `PropietarioId`, `Direccion`, `Uso`, `Tipo`, `Ambientes`, `Latitud`, `Longitud`, `Precio`, `Activo`, `Disponible`) VALUES
+(1, 1, 'Los Teros 584, San Luis', 1, 2, 3, 40.71, -74.3, 150000, 1, 0),
+(2, 2, 'Avenida Norte 456, Merlo', 2, 1, 2, 35.68, 139.69, 200000, 0, 1),
+(3, 3, 'Calle Pedrada 789, CABA', 2, 3, 4, 51.5, -0.12, 300000, 1, 1),
+(4, 9, 'Paseo Marítimo 101, Córdoba', 1, 2, 1, -33.86, 151.2, 100000, 1, 0),
+(5, 4, 'Av Principal 789, Celestina', 2, 1, 3, 45.42, -75.69, 250000, 1, 1),
+(6, 5, 'Corazonada 4456, San Miguel', 2, 3, 2, -23.55, -46.63, 180000, 1, 1),
+(7, 6, 'Avenida 12345, Ciudad', 1, 4, 4, 52.52, 13.405, 350000, 1, 1),
+(8, 2, 'La Patrona 67890, Orones', 1, 2, 2, 40.73, -73.93, 160000, 0, 1),
+(9, 8, 'Mate Verde 67890, San Martin', 1, 2, 2, 40.73, -73.93, 220000, 1, 1),
+(10, 8, 'Pedrera 352, San Martín', 1, 2, 2, 40.73, -53.85, 560000, 1, 0),
+(11, 7, 'Los Madarinos 2598, Carpintería', 2, 4, 2, 34.05, -118.24, 200000, 1, 1),
+(12, 10, 'Avenida Sur 987, San Luis', 2, 3, 3, 48.85, 2.35, 280000, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -120,7 +138,7 @@ CREATE TABLE `propietarios` (
 --
 
 INSERT INTO `propietarios` (`Id`, `Nombre`, `Apellido`, `Dni`, `Email`, `Telefono`) VALUES
-(1, 'María', 'González', '35478965', 'maria.gonzalez@email.com', '3301547856'),
+(1, 'María', 'González', '35478965', 'maria.gonzalez@email.com', '3301547852'),
 (2, 'Pedro', 'López', '21546897', 'pedro.lopez@email.com', '2236982358'),
 (3, 'Ana', 'Martínez', '38974521', 'ana.martinez@email.com', '2987451202'),
 (4, 'Carlos', 'Sánchez', '47852369', 'carlos.sanchez@email.com', '2863520012'),
@@ -183,7 +201,7 @@ ALTER TABLE `contratos`
 -- AUTO_INCREMENT for table `inmuebles`
 --
 ALTER TABLE `inmuebles`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `inquilinos`
