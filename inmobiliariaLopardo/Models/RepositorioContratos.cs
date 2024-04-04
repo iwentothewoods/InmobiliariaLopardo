@@ -128,7 +128,7 @@ public class RepositorioContratos
                       InmuebleId = @InmuebleId,
                       FechaInicio = @FechaInicio,
                       FechaFin = @FechaFin,
-                      FechaTerminacion = @FechaTerminacion,
+                      FechaTerminacion = @FechaTerminacion
                       WHERE Id = @Id";
 
             using (var command = new MySqlCommand(sql, connection))
