@@ -20,7 +20,6 @@ public class InmueblesController : Controller
         RepositorioInmuebles rp = new RepositorioInmuebles();
         var lista = rp.GetInmuebles();
 
-        // Filtrar por tipo de propiedad si se ha seleccionado un valor en el dropdown
         if (!string.IsNullOrEmpty(tipoPropiedad))
         {
             lista = lista.Where(i => i.Tipo.ToString() == tipoPropiedad).ToList();
