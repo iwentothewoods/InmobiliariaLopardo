@@ -148,4 +148,25 @@ public class RepositorioInquilinos
             }
         }
     }
+
+    public List<int> ObtenerListaIDsInquilinos()
+    {
+        List<int> listaIDs = new List<int>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = $"SELECT {nameof(Inquilino.Id)} FROM inquilinos";
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaIDs.Add(reader.GetInt32(nameof(Inquilino.Id)));
+                    }
+                }
+            }
+        }
+        return listaIDs;
+    }
 }
