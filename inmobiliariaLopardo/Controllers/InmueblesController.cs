@@ -13,12 +13,22 @@ public class InmueblesController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+
+
+    public IActionResult Index(string tipoPropiedad)
     {
         RepositorioInmuebles rp = new RepositorioInmuebles();
         var lista = rp.GetInmuebles();
+
+        // Filtrar por tipo de propiedad si se ha seleccionado un valor en el dropdown
+        if (!string.IsNullOrEmpty(tipoPropiedad))
+        {
+            lista = lista.Where(i => i.Tipo.ToString() == tipoPropiedad).ToList();
+        }
+
         return View(lista);
     }
+
 
     // GET: Inmuebles/Crear
     public ActionResult Crear()

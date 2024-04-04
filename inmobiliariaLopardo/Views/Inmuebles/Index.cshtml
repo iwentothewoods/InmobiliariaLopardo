@@ -12,6 +12,21 @@
     <a asp-action="Crear" class="btn btn-create-new">Crear nuevo</a>
 </p>
 <table class="table">
+
+    <form asp-controller="Inmuebles" asp-action="Index" method="get" class="custom-form">
+        <div class="form-group">
+            <label for="tipoPropiedad">Tipo de Propiedad:</label>
+            <select class="form-control form-control-sm dropdown-container" id="tipoPropiedad" name="tipoPropiedad">
+                <option value="">Todos</option>
+                <option value="Casa">Casa</option>
+                <option value="Oficina">Oficina</option>
+                <option value="Departamento">Departamento</option>
+                <option value="Almacen">Almacén</option>
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+        </div>
+    </form>
+
     <thead>
         <tr>
             <th>
@@ -51,60 +66,61 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PropietarioId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Latitud)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Longitud)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ambientes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio)
-            </td>
-            <td>
-                @if (item.Activo)
-                {
-                    <text>Sí</text>
-                }
-                else
-                {
-                    <text>No</text>
-                }
-            </td>
-            <td>
-                @if (item.Disponible)
-                {
-                    <text>Sí</text>
-                }
-                else
-                {
-                    <text>No</text>
-                }
-            </td>
-            <td>
-               <i class="fa-solid fa-pen-to-square"></i> @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
-               <i class="fa-solid fa-trash"></i> @Html.ActionLink("Eliminar", "Eliminar", new { id = item.Id })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PropietarioId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Latitud)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longitud)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ambientes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
+                    @if (item.Activo)
+                    {
+                        <text>Sí</text>
+                    }
+                    else
+                    {
+                        <text>No</text>
+                    }
+                </td>
+                <td>
+                    @if (item.Disponible)
+                    {
+                        <text>Sí</text>
+                    }
+                    else
+                    {
+                        <text>No</text>
+                    }
+                </td>
+                <td>
+                    <i class="fa-solid fa-pen-to-square"></i> @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+                    <i class="fa-solid fa-trash"></i> @Html.ActionLink("Eliminar", "Eliminar", new { id = item.Id })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

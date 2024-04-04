@@ -105,3 +105,31 @@ a {
     margin-left: 0;
 }
 
+/* Estilo para drop down inmueble*/
+
+.table-container {
+    margin-top: 20px;
+}
+
+/* Estilos para el dropdown */
+.dropdown-container {
+    display: inline-block;
+    margin-right: 10px;
+    width: 150px;
+}
+
+.custom-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-primary {
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+
