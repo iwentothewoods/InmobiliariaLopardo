@@ -20,7 +20,7 @@ public class RepositorioContratos
         using (var connection = new MySqlConnection(connectionString))
         {
 
-            var sql = $"SELECT {nameof(Contrato.Id)}, {nameof(Contrato.InquilinoId)}, {nameof(Contrato.InmuebleId)}, {nameof(Contrato.FechaInicio)}, {nameof(Contrato.FechaFin)}, {nameof(Contrato.FechaTerminacion)} FROM contratos";
+            var sql = $"SELECT {nameof(Contrato.Id)}, {nameof(Contrato.InquilinoId)}, {nameof(Contrato.InmuebleId)}, {nameof(Contrato.FechaInicio)}, {nameof(Contrato.FechaFin)} FROM contratos";
             using (var command = new MySqlCommand(sql, connection))
             {
                 connection.Open();
@@ -35,7 +35,6 @@ public class RepositorioContratos
                             InmuebleId = reader.GetInt32(nameof(Contrato.InmuebleId)),
                             FechaInicio = reader.GetDateTime(nameof(Contrato.FechaInicio)),
                             FechaFin = reader.GetDateTime(nameof(Contrato.FechaFin)),
-                            FechaTerminacion = reader.GetDateTime(nameof(Contrato.FechaTerminacion)),
                         });
                     }
                 }
@@ -50,7 +49,7 @@ public class RepositorioContratos
         Contrato? Contrato = null;
         using (var connection = new MySqlConnection(connectionString))
         {
-            var sql = $"SELECT {nameof(Contrato.Id)}, {nameof(Contrato.InquilinoId)}, {nameof(Contrato.InmuebleId)}, {nameof(Contrato.FechaInicio)}, {nameof(Contrato.FechaFin)}, {nameof(Contrato.FechaTerminacion)} FROM contratos WHERE {nameof(Contrato.Id)} = @id";
+            var sql = $"SELECT {nameof(Contrato.Id)}, {nameof(Contrato.InquilinoId)}, {nameof(Contrato.InmuebleId)}, {nameof(Contrato.FechaInicio)}, {nameof(Contrato.FechaFin)} FROM contratos WHERE {nameof(Contrato.Id)} = @id";
             using (var command = new MySqlCommand(sql, connection))
             {
                 command.Parameters.AddWithValue("@id", id);
@@ -66,7 +65,6 @@ public class RepositorioContratos
                             InmuebleId = reader.GetInt32(nameof(Contrato.InmuebleId)),
                             FechaInicio = reader.GetDateTime(nameof(Contrato.FechaInicio)),
                             FechaFin = reader.GetDateTime(nameof(Contrato.FechaFin)),
-                            FechaTerminacion = reader.GetDateTime(nameof(Contrato.FechaTerminacion)),
                         };
                     }
                 }
@@ -80,8 +78,8 @@ public class RepositorioContratos
         int res = -1;
         using (var connection = new MySqlConnection(connectionString))
         {
-            var sql = @"INSERT INTO Contratos (InquilinoId, InmuebleId, FechaInicio, FechaFin, FechaTerminacion)
-                    VALUES (@InquilinoId, @InmuebleId, @FechaInicio, @FechaFin, @FechaTerminacion);
+            var sql = @"INSERT INTO Contratos (InquilinoId, InmuebleId, FechaInicio, FechaFin)
+                    VALUES (@InquilinoId, @InmuebleId, @FechaInicio, @FechaFin);
                     SELECT LAST_INSERT_ID();";
             
             using (var command = new MySqlCommand(sql, connection))
@@ -91,7 +89,6 @@ public class RepositorioContratos
                 command.Parameters.AddWithValue("@InmuebleId", i.InmuebleId);
                 command.Parameters.AddWithValue("@FechaInicio", i.FechaInicio);
                 command.Parameters.AddWithValue("@FechaFin", i.FechaFin);
-                command.Parameters.AddWithValue("@FechaTerminacion", i.FechaTerminacion);
 
                 connection.Open();
                 res = Convert.ToInt32(command.ExecuteScalar());
@@ -127,8 +124,7 @@ public class RepositorioContratos
                       InquilinoId = @InquilinoId,
                       InmuebleId = @InmuebleId,
                       FechaInicio = @FechaInicio,
-                      FechaFin = @FechaFin,
-                      FechaTerminacion = @FechaTerminacion
+                      FechaFin = @FechaFin
                       WHERE Id = @Id";
 
             using (var command = new MySqlCommand(sql, connection))
@@ -137,7 +133,6 @@ public class RepositorioContratos
                 command.Parameters.AddWithValue("@InmuebleId", i.InmuebleId);
                 command.Parameters.AddWithValue("@FechaInicio", i.FechaInicio);
                 command.Parameters.AddWithValue("@FechaFin", i.FechaFin);
-                command.Parameters.AddWithValue("@FechaTerminacion", i.FechaTerminacion);
                 command.Parameters.AddWithValue("@Id", i.Id);
 
                 connection.Open();
