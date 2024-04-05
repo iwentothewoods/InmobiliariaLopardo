@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2024 at 07:21 PM
+-- Generation Time: Apr 05, 2024 at 07:12 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -36,6 +36,22 @@ CREATE TABLE `contratos` (
   `FechaTerminacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `contratos`
+--
+
+INSERT INTO `contratos` (`id`, `InquilinoId`, `InmuebleId`, `FechaInicio`, `FechaFin`, `FechaTerminacion`) VALUES
+(2, 1, 1, '2024-04-03', '2024-04-30', NULL),
+(3, 2, 3, '2024-04-02', '2024-04-29', NULL),
+(4, 3, 2, '2024-04-03', '2024-04-28', NULL),
+(6, 10, 11, '2024-04-02', '2024-04-29', NULL),
+(8, 4, 4, '2024-04-04', '2024-04-27', NULL),
+(9, 5, 5, '2024-04-05', '2024-04-26', NULL),
+(10, 6, 6, '2024-04-06', '2024-04-25', NULL),
+(11, 7, 7, '2024-04-07', '2024-04-24', NULL),
+(12, 8, 8, '2024-04-08', '2024-04-23', NULL),
+(13, 9, 9, '2024-04-09', '2024-04-22', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -61,7 +77,7 @@ CREATE TABLE `inmuebles` (
 --
 
 INSERT INTO `inmuebles` (`Id`, `PropietarioId`, `Direccion`, `Uso`, `Tipo`, `Ambientes`, `Latitud`, `Longitud`, `Precio`, `Activo`, `Disponible`) VALUES
-(1, 1, 'Los Teros 584, San Luis', 1, 2, 3, 40.71, -74.3, 150000, 1, 0),
+(1, 1, 'Los Teros 5834, San Luis', 1, 2, 3, 40.71, -74.3, 150000, 1, 0),
 (2, 2, 'Avenida Norte 456, Merlo', 2, 1, 2, 35.68, 139.69, 200000, 0, 1),
 (3, 3, 'Calle Pedrada 789, CABA', 2, 3, 4, 51.5, -0.12, 300000, 1, 1),
 (4, 9, 'Paseo Marítimo 101, Córdoba', 1, 2, 1, -33.86, 151.2, 100000, 1, 0),
@@ -195,7 +211,7 @@ ALTER TABLE `propietarios`
 -- AUTO_INCREMENT for table `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `inmuebles`
