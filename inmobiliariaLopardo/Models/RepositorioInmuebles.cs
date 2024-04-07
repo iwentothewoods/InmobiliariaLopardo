@@ -129,6 +129,52 @@ public class RepositorioInmuebles
         return inmuebles;
     }
 
+    public List<Inmueble> GetInmueblesPorTipo(int tipoId)
+    {
+        List<Inmueble> listaInmuebles = new List<Inmueble>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = @"
+            SELECT 
+                i.*, 
+                p.Nombre AS NombrePropietario, 
+                p.Apellido AS ApellidoPropietario 
+            FROM Inmuebles i
+            INNER JOIN Propietarios p ON i.PropietarioId = p.Id
+            WHERE i.Tipo = @TipoId";
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@TipoId", tipoId);
+
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaInmuebles.Add(new Inmueble
+                        {
+                            Id = reader.GetInt32("Id"),
+                            Direccion = reader.GetString("Direccion"),
+                            Uso = (UsoInmueble)reader.GetInt32("Uso"),
+                            Tipo = (TipoInmueble)reader.GetInt32("Tipo"),
+                            Precio = reader.GetDouble("Precio"),
+                            Disponible = reader.GetBoolean("Disponible"),
+                            Activo = reader.GetBoolean("Activo"),
+                            Propietario = new Propietario
+                        {
+                            Nombre = reader.GetString("NombrePropietario"),
+                            Apellido = reader.GetString("ApellidoPropietario")
+                        }
+                        });
+                    }
+                }
+            }
+        }
+        return listaInmuebles;
+    }
+
+
 
     public int Alta(Inmueble i)
     {

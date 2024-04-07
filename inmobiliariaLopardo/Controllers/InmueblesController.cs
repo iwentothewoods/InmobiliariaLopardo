@@ -13,20 +13,23 @@ public class InmueblesController : Controller
         _logger = logger;
     }
 
-    //Utilizamos el método "where" para seleccionar solo los inmuebles que coincidan con el tipoId seleccionado en el drop down. 
-    //Para poder compararlos, hay que convertir el int que enviamos desde el form a TipoInmueble, que es un enum.
     public IActionResult Index(int? tipoId)
     {
         RepositorioInmuebles rp = new RepositorioInmuebles();
-        var lista = rp.GetInmuebles();
+        IList<Inmueble> lista;
 
         if (tipoId.HasValue)
         {
-            lista = lista.Where(i => i.Tipo == (TipoInmueble)tipoId).ToList();
+            lista = rp.GetInmueblesPorTipo(tipoId.Value);
+        }
+        else
+        {
+            lista = rp.GetInmuebles();
         }
 
         return View(lista);
     }
+
 
 
     // GET: Inmuebles/Crear
@@ -126,14 +129,14 @@ public class InmueblesController : Controller
     [Route("inmuebles/detalles/{id}")]
     public ActionResult Detalles(int id)
     {
-         RepositorioInmuebles repo = new RepositorioInmuebles();
+        RepositorioInmuebles repo = new RepositorioInmuebles();
         var inmueble = repo.GetInmueble(id);
 
         RepositorioPropietarios rep = new RepositorioPropietarios();
         var propietario = rep.GetPropietario(inmueble.PropietarioId);
-        
+
         inmueble.Propietario = propietario;
-        
+
         return View(inmueble);
     }
 
