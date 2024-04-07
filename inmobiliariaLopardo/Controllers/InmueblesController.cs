@@ -13,16 +13,16 @@ public class InmueblesController : Controller
         _logger = logger;
     }
 
-
-
-    public IActionResult Index(string tipoPropiedad)
+    //Utilizamos el método "where" para seleccionar solo los inmuebles que coincidan con el tipoId seleccionado en el drop down. 
+    //Para poder compararlos, hay que convertir el int que enviamos desde el form a TipoInmueble, que es un enum.
+    public IActionResult Index(int? tipoId)
     {
         RepositorioInmuebles rp = new RepositorioInmuebles();
         var lista = rp.GetInmuebles();
 
-        if (!string.IsNullOrEmpty(tipoPropiedad))
+        if (tipoId.HasValue)
         {
-            lista = lista.Where(i => i.Tipo.ToString() == tipoPropiedad).ToList();
+            lista = lista.Where(i => i.Tipo == (TipoInmueble)tipoId).ToList();
         }
 
         return View(lista);
@@ -33,8 +33,8 @@ public class InmueblesController : Controller
     public ActionResult Crear()
     {
         RepositorioPropietarios rep = new RepositorioPropietarios();
-        var listaIDs = rep.ObtenerListaIDsPropietarios();
-        ViewBag.ListaIDs = listaIDs;
+        var listaPropietarios = rep.GetPropietarios();
+        ViewBag.ListaPropietarios = listaPropietarios;
         return View();
     }
 
@@ -55,19 +55,17 @@ public class InmueblesController : Controller
         }
     }
 
-    // GET: inmuebles/Edit/5
     public ActionResult Editar(int id)
     {
         RepositorioPropietarios rep = new RepositorioPropietarios();
-        var listaIDs = rep.ObtenerListaIDsPropietarios();
-        ViewBag.ListaIDs = listaIDs;
+        var listaPropietarios = rep.GetPropietarios();
+        ViewBag.ListaPropietarios = listaPropietarios;
+
         RepositorioInmuebles repo = new RepositorioInmuebles();
         var inmueble = repo.GetInmueble(id);
         return View(inmueble);
     }
 
-
-    // POST: inmuebles/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Editar(int id, Inmueble i)
@@ -76,6 +74,7 @@ public class InmueblesController : Controller
         {
             RepositorioInmuebles repo = new RepositorioInmuebles();
             repo.Modificacion(i);
+
             return RedirectToAction(nameof(Index));
         }
         catch
@@ -89,8 +88,21 @@ public class InmueblesController : Controller
     {
         RepositorioInmuebles repo = new RepositorioInmuebles();
         var inmueble = repo.GetInmueble(id);
+
+        // traer la info del propietario
+        if (inmueble != null && inmueble.PropietarioId != null)
+        {
+            RepositorioPropietarios repoPropietario = new RepositorioPropietarios();
+            var propietario = repoPropietario.GetPropietario(inmueble.PropietarioId);
+            if (propietario != null)
+            {
+                inmueble.Propietario = propietario;
+            }
+        }
+
         return View(inmueble);
     }
+
 
     // POST: inmuebles/Delete/5
     [HttpPost]
@@ -109,4 +121,20 @@ public class InmueblesController : Controller
             return View();
         }
     }
+
+    // inmuebles/Detalles/5
+    [Route("inmuebles/detalles/{id}")]
+    public ActionResult Detalles(int id)
+    {
+         RepositorioInmuebles repo = new RepositorioInmuebles();
+        var inmueble = repo.GetInmueble(id);
+
+        RepositorioPropietarios rep = new RepositorioPropietarios();
+        var propietario = rep.GetPropietario(inmueble.PropietarioId);
+        
+        inmueble.Propietario = propietario;
+        
+        return View(inmueble);
+    }
+
 }

@@ -1,0 +1,39 @@
+@model inmobiliariaLopardo.Models.Contrato
+
+@{
+    ViewData["Title"] = "Detalles del Contrato";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="detalles-container">
+            <h1>Detalles del Contrato</h1>
+
+            <ul class="list-group lista-detalles">
+                <li class="list-group-item"><strong>Fecha de Inicio:</strong> @Model.FechaInicio.ToShortDateString()
+                </li>
+                <li class="list-group-item"><strong>Fecha de Finalización:</strong> @Model.FechaFin.ToShortDateString()
+                </li>
+                <li class="list-group-item"><strong>Inmueble:</strong> @Model.Inmueble.Direccion
+                    <a asp-controller="inmuebles" asp-action="Detalles" asp-route-id="@Model.Inmueble.Id"
+                        class="btn btn-info">Ver más</a>
+                </li>
+                <li class="list-group-item">
+                    <strong>Propietario:</strong> @Model.Inmueble.Propietario.Nombre
+                    @Model.Inmueble.Propietario.Apellido
+                    <a asp-controller="propietarios" asp-action="Detalles" asp-route-id="@Model.Inmueble.Propietario.Id"
+                        class="btn btn-info">Ver más</a>
+                </li>
+                <li class="list-group-item">
+                    <strong>Inquilino:</strong> @Model.Inquilino.Nombre @Model.Inquilino.Apellido
+                    <a asp-controller="inquilinos" asp-action="Detalles" asp-route-id="@Model.Inquilino.Id"
+                        class="btn btn-info">Ver más</a>
+                </li>
+            </ul>
+
+            <div class="button-container">
+                <a asp-action="Index" class="button-volver">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -21,70 +21,79 @@ public class InquilinosController : Controller
     }
 
     public ActionResult Crear()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult Crear(Inquilino p)
+    {
+        try
+        {
+            RepositorioInquilinos repo = new RepositorioInquilinos();
+            repo.Alta(p);
+            return RedirectToAction(nameof(Index));
+        }
+        catch
         {
             return View();
         }
+    }
+
+    public ActionResult Editar(int id)
+    {
+        RepositorioInquilinos repo = new RepositorioInquilinos();
+        var inquilino = repo.GetInquilino(id);
+        return View(inquilino);
+    }
 
     [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Crear(Inquilino p)
-        {
-            try
-            {
-                RepositorioInquilinos repo = new RepositorioInquilinos();
-                repo.Alta(p);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-    
-    public ActionResult Editar(int id)
+    [ValidateAntiForgeryToken]
+    public ActionResult Editar(int id, Inquilino p)
+    {
+        try
         {
             RepositorioInquilinos repo = new RepositorioInquilinos();
-            var inquilino = repo.GetInquilino(id);
-            return View(inquilino);
+            repo.Modificacion(p);
+            return RedirectToAction(nameof(Index));
         }
-
-    [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Editar(int id, Inquilino p)
+        catch
         {
-            try
-            {
-                RepositorioInquilinos repo = new RepositorioInquilinos();
-                repo.Modificacion(p);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
+    }
 
     public ActionResult Eliminar(int id)
-        {
-            RepositorioInquilinos repo = new RepositorioInquilinos();
-            var inquilino = repo.GetInquilino(id);
-            return View(inquilino);
-        }
+    {
+        RepositorioInquilinos repo = new RepositorioInquilinos();
+        var inquilino = repo.GetInquilino(id);
+        return View(inquilino);
+    }
 
     [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Eliminar(int id, Inquilino p)
+    [ValidateAntiForgeryToken]
+    public ActionResult Eliminar(int id, Inquilino p)
+    {
+        try
         {
-            try
-            {
-                RepositorioInquilinos repo = new RepositorioInquilinos();
-                repo.Baja(id);
-                TempData["Mensaje"] = "Eliminación realizada correctamente";
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }    
+            RepositorioInquilinos repo = new RepositorioInquilinos();
+            repo.Baja(id);
+            TempData["Mensaje"] = "Eliminación realizada correctamente";
+            return RedirectToAction(nameof(Index));
+        }
+        catch
+        {
+            return View();
+        }
+    }
+
+    [Route("inquilinos/detalles/{id}")]
+    public ActionResult Detalles(int id)
+    {
+        RepositorioInquilinos repo = new RepositorioInquilinos();
+        var inquilino = repo.GetInquilino(id);
+        
+        return View(inquilino);
+    }
 }

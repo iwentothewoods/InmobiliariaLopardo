@@ -21,7 +21,11 @@ public class RepositorioInmuebles
         var inmuebles = new List<Inmueble>();
         using (var connection = new MySqlConnection(connectionString))
         {
-            var sql = $"SELECT {nameof(Inmueble.Id)}, {nameof(Inmueble.PropietarioId)}, {nameof(Inmueble.Direccion)},{nameof(Inmueble.Uso)}, {nameof(Inmueble.Tipo)}, {nameof(Inmueble.Latitud)}, {nameof(Inmueble.Longitud)}, {nameof(Inmueble.Ambientes)}, {nameof(Inmueble.Precio)}, {nameof(Inmueble.Activo)}, {nameof(Inmueble.Disponible)} FROM inmuebles";
+            var sql = @"SELECT i.Id AS InmuebleId, i.PropietarioId, i.Direccion, i.Uso, i.Tipo, i.Latitud, i.Longitud, i.Ambientes, i.Precio, i.Activo, 
+                    i.Disponible, p.Nombre AS PropietarioNombre, p.Apellido AS PropietarioApellido
+                    FROM Inmuebles i
+                    INNER JOIN Propietarios p ON i.PropietarioId = p.Id";
+
             using (var command = new MySqlCommand(sql, connection))
             {
                 connection.Open();
@@ -31,17 +35,23 @@ public class RepositorioInmuebles
                     {
                         inmuebles.Add(new Inmueble
                         {
-                            Id = reader.GetInt32(nameof(Inmueble.Id)),
-                            PropietarioId = reader.GetInt32(nameof(Inmueble.PropietarioId)),
-                            Direccion = reader.GetString(nameof(Inmueble.Direccion)),
-                            Uso = (UsoInmueble)reader.GetInt32(nameof(Inmueble.Uso)),
-                            Tipo = (TipoInmueble)reader.GetInt32(nameof(Inmueble.Tipo)),
-                            Latitud = reader.GetDouble(nameof(Inmueble.Latitud)),
-                            Longitud = reader.GetDouble(nameof(Inmueble.Longitud)),
-                            Ambientes = reader.GetInt32(nameof(Inmueble.Ambientes)),
-                            Precio = reader.GetDouble(nameof(Inmueble.Precio)),
-                            Disponible = reader.GetBoolean(nameof(Inmueble.Disponible)),
-                            Activo = reader.GetBoolean(nameof(Inmueble.Activo))
+                            Id = reader.GetInt32("InmuebleId"),
+                            PropietarioId = reader.GetInt32("PropietarioId"),
+                            Direccion = reader.GetString("Direccion"),
+                            Uso = (UsoInmueble)reader.GetInt32("Uso"),
+                            Tipo = (TipoInmueble)reader.GetInt32("Tipo"),
+                            Latitud = reader.GetDouble("Latitud"),
+                            Longitud = reader.GetDouble("Longitud"),
+                            Ambientes = reader.GetInt32("Ambientes"),
+                            Precio = reader.GetDouble("Precio"),
+                            Disponible = reader.GetBoolean("Disponible"),
+                            Activo = reader.GetBoolean("Activo"),
+                            Propietario = new Propietario
+                            {
+                                Id = reader.GetInt32("PropietarioId"),
+                                Nombre = reader.GetString("PropietarioNombre"),
+                                Apellido = reader.GetString("PropietarioApellido")
+                            }
                         });
                     }
                 }
@@ -49,6 +59,7 @@ public class RepositorioInmuebles
         }
         return inmuebles;
     }
+
 
     public Inmueble? GetInmueble(int id)
     {
@@ -85,8 +96,40 @@ public class RepositorioInmuebles
         return Inmueble;
     }
 
+    public List<Inmueble> GetInmueblesPorPropietario(int propietarioId)
+    {
+        var inmuebles = new List<Inmueble>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = @"SELECT Id, Direccion, Uso, Tipo, Precio, Activo, Disponible 
+            FROM Inmuebles WHERE PropietarioId = @propietarioId";
 
-    //Crear Inmueble
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@propietarioId", propietarioId);
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        inmuebles.Add(new Inmueble
+                        {
+                            Id = reader.GetInt32("Id"),
+                            Direccion = reader.GetString("Direccion"),
+                            Uso = (UsoInmueble)reader.GetInt32("Uso"),
+                            Tipo = (TipoInmueble)reader.GetInt32("Tipo"),
+                            Precio = reader.GetDouble("Precio"),
+                            Disponible = reader.GetBoolean("Disponible"),
+                            Activo = reader.GetBoolean("Activo")
+                        });
+                    }
+                }
+            }
+        }
+        return inmuebles;
+    }
+
+
     public int Alta(Inmueble i)
     {
         int res = -1;
@@ -108,7 +151,7 @@ public class RepositorioInmuebles
                 command.Parameters.AddWithValue("@Ambientes", i.Ambientes);
                 command.Parameters.AddWithValue("@Precio", i.Precio);
                 command.Parameters.AddWithValue("@Activo", i.Activo ? 1 : 0); // Convierte bool a 1 o 0
-                command.Parameters.AddWithValue("@Disponible", i.Disponible ? 1 : 0); 
+                command.Parameters.AddWithValue("@Disponible", i.Disponible ? 1 : 0);
 
                 connection.Open();
                 res = Convert.ToInt32(command.ExecuteScalar());

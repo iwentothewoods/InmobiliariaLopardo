@@ -1,0 +1,64 @@
+@model inmobiliariaLopardo.Models.Propietario
+
+@{
+    ViewData["Title"] = "Detalles del Propietario";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="detalles-container">
+            <h1>Detalles del Propietario</h1>
+
+            <ul class="list-group lista-detalles">
+                <li class="list-group-item"><strong>Nombre:</strong> @Model.Nombre</li>
+                <li class="list-group-item"><strong>Apellido:</strong> @Model.Apellido</li>
+                <li class="list-group-item"><strong>Documento:</strong> @Model.Dni</li>
+                <li class="list-group-item"><strong>Email:</strong> @Model.Email</li>
+                <li class="list-group-item"><strong>Telefono:</strong> @Model.Telefono</li>
+
+                <h5>Inmuebles de este propietario</h5>
+                @if (Model.Inmuebles != null && Model.Inmuebles.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Dirección</th>
+                                <th>Uso</th>
+                                <th>Tipo</th>
+                                <th>Precio</th>
+                                <th>Activo</th>
+                                <th>Disp</th>
+                                <th>Detalles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var inmueble in Model.Inmuebles)
+                            {
+                                <tr>
+                                    <td>@inmueble.Id</td>
+                                    <td>@inmueble.Direccion</td>
+                                    <td>@inmueble.Uso</td>
+                                    <td>@inmueble.Tipo</td>
+                                    <td>@inmueble.Precio</td>
+                                    <td>@(inmueble.Activo ? "Sí" : "No")</td>
+                                    <td>@(inmueble.Disponible ? "Sí" : "No")</td>
+                                    <td><a asp-controller="inmuebles" asp-action="Detalles" asp-route-id="@inmueble.Id">Ver
+                                            más</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>Oops! Este propietario no tiene ningún inmueble.</p>
+                }
+            </ul>
+
+            <div class="button-container">
+                <a asp-action="Index" class="button-volver">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+</div>

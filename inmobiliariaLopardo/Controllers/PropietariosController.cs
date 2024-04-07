@@ -96,6 +96,19 @@ public class PropietariosController : Controller
             return View();
         }
     }
+
+    [Route("propietarios/detalles/{id}")]
+    public ActionResult Detalles(int id)
+    {
+        RepositorioPropietarios repo = new RepositorioPropietarios();
+        var propietario = repo.GetPropietario(id);
+
+        RepositorioInmuebles repoInmuebles = new RepositorioInmuebles();
+        var inmuebles = repoInmuebles.GetInmueblesPorPropietario(id);
+        propietario.Inmuebles = inmuebles;
+
+        return View(propietario);
+    }
 }
 
 

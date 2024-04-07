@@ -22,7 +22,7 @@
                 Inquilino
             </th>
             <th>
-                Inmueble
+                Propietario
             </th>
             <th>
                 Fecha de Inicio
@@ -41,10 +41,10 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InquilinoId)
+                    @Html.DisplayFor(modelItem => item.Inquilino.Nombre) @Html.DisplayFor(modelItem => item.Inquilino.Apellido)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InmuebleId)
+                    @Html.DisplayFor(modelItem => item.Inmueble.Propietario.Nombre) @Html.DisplayFor(modelItem => item.Inmueble.Propietario.Apellido)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaInicio)
@@ -53,6 +53,7 @@
                     @Html.DisplayFor(modelItem => item.FechaFin)
                 </td>
                 <td>
+                    <i class="fa-solid fa-circle-info"></i> @Html.ActionLink("Detalles", "Detalles", new { id = item.Id }) |
                     <i class="fa-solid fa-pen-to-square"></i> @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
                     <i class="fa-solid fa-trash"></i> @Html.ActionLink("Eliminar", "Eliminar", new { id = item.Id })
                 </td>

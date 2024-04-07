@@ -1,0 +1,34 @@
+@model inmobiliariaLopardo.Models.Inmueble
+
+@{
+    ViewData["Title"] = "Detalles del Inmueble";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <img src="~/img/propiedad2.jpg" class="img-fluid" alt="Foto Inmuebles">
+    </div>
+    <div class="col-md-6">
+        <div class="detalles-container">
+            <h4>Detalles del Inmueble</h4>
+            <ul class="list-group lista-detalles">
+                <li class="list-group-item"><strong>Id del Inmueble:</strong> @Model.Id</li>
+                <li class="list-group-item"><strong>Tipo de Inmueble:</strong> @Model.Tipo</li>
+                <li class="list-group-item"><strong>Nombre del Propietario:</strong> @Model.Propietario.Nombre
+                    @Model.Propietario.Apellido</li>
+                <li class="list-group-item"><strong>Dirección:</strong> @Model.Direccion</li>
+                <li class="list-group-item"><strong>Uso:</strong> @Model.Uso</li>
+                <li class="list-group-item"><strong>Latitud:</strong> @Model.Latitud</li>
+                <li class="list-group-item"><strong>Longitud:</strong> @Model.Longitud</li>
+                <li class="list-group-item"><strong>Ambientes:</strong> @Model.Ambientes</li>
+                <li class="list-group-item"><strong>Precio:</strong> @Model.Precio</li>
+                <li class="list-group-item"><strong>Activo:</strong> @(Model.Activo ? "Sí" : "No")</li>
+                <li class="list-group-item"><strong>Disponible:</strong> @(Model.Disponible ? "Sí" : "No")</li>
+            </ul>
+
+            <div class="button-container">
+                <a asp-action="Index" class="button-volver">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+</div>

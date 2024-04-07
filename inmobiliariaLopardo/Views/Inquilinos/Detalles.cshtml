@@ -1,0 +1,24 @@
+@model inmobiliariaLopardo.Models.Inquilino
+
+@{
+    ViewData["Title"] = "Detalles del Inquilino";
+}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="detalles-container">
+            <h1>Detalles del Inquilino</h1>
+
+            <ul class="list-group lista-detalles">
+                <li class="list-group-item"><strong>Nombre:</strong> @Model.Nombre</li>
+                <li class="list-group-item"><strong>Apellido:</strong> @Model.Apellido</li>
+                <li class="list-group-item"><strong>Documento:</strong> @Model.Dni</li>
+                <li class="list-group-item"><strong>Email:</strong> @Model.Email</li>
+                <li class="list-group-item"><strong>Telefono:</strong> @Model.Telefono</li>
+            </ul>
+
+            <div class="button-container">
+                <a asp-action="Index" class="button-volver">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+</div>

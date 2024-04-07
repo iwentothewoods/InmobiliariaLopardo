@@ -13,37 +13,39 @@
         <form asp-action="Crear">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="InquilinoId" class="control-label"></label>
+                <label asp-for="Inquilino" class="control-label">Inquilino</label>
                 <select asp-for="InquilinoId" class="form-control">
-                    @foreach (var id in ViewBag.ListaIDs1)
+                    @foreach (var inquilino in ViewBag.ListaInquilinos)
                     {
-                        <option value="@id">@id</option>
+                        <option value="@inquilino.Id">@inquilino.Nombre @inquilino.Apellido</option>
                     }
                 </select>
                 <span asp-validation-for="InquilinoId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InmuebleId" class="control-label"></label>
+                <label asp-for="InmuebleId" class="control-label">Inmueble</label>
                 <select asp-for="InmuebleId" class="form-control">
-                    @foreach (var id in ViewBag.ListaIDs2)
+                    @foreach (var inmueble in ViewBag.ListaInmuebles)
                     {
-                        <option value="@id">@id</option>
+                        <option value="@inmueble.Id">@inmueble.Direccion</option>
                     }
                 </select>
                 <span asp-validation-for="InmuebleId" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="FechaInicio" class="control-label"></label>
+                <label asp-for="FechaInicio" class="control-label">Fecha de Inicio</label>
                 <input type="date" asp-for="FechaInicio" class="form-control" />
                 <span asp-validation-for="FechaInicio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FechaFin" class="control-label"></label>
+                <label asp-for="FechaFin" class="control-label">Fecha de Fin</label>
                 <input type="date" asp-for="FechaFin" class="form-control" />
                 <span asp-validation-for="FechaFin" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" /> <a asp-action="Index" class="btn btn-volver">Volver a la lista</a>
+                <input type="submit" value="Crear" class="btn btn-primary" /> <a asp-action="Index"
+                    class="btn btn-volver">Volver a la lista</a>
             </div>
         </form>
     </div>

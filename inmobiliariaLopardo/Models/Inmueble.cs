@@ -5,8 +5,8 @@ public class Inmueble
     public int Id { get; set; }
     public int PropietarioId { get; set; }
     public string Direccion { get; set; }
-    public UsoInmueble Uso { get; set; }  // Enumerador para Uso
-    public TipoInmueble Tipo { get; set; }  // Enumerador para Tipo
+    public UsoInmueble Uso { get; set; }
+    public TipoInmueble Tipo { get; set; }
     public int? Ambientes { get; set; }
     public double? Latitud { get; set; }
     public double? Longitud { get; set; }
@@ -14,14 +14,17 @@ public class Inmueble
     public bool Activo { get; set; }
     public bool Disponible { get; set; }
 
+    public Propietario? Propietario { get; set; } //Agregué un propietario entero para poder traer nombre y apellido en las tablas / ABM
     public Inmueble()
     {
-        
+
     }
 
-    public Inmueble(int propietarioId, string direccion, UsoInmueble uso, TipoInmueble tipo, int? ambientes, double? latitud, double? longitud, double precio, bool activo, bool disponible)
+    public Inmueble(int id, int propietarioId, Propietario propietario, string direccion, UsoInmueble uso, TipoInmueble tipo, int? ambientes, double? latitud, double? longitud, double precio, bool activo, bool disponible)
     {
+        Id = id;
         PropietarioId = propietarioId;
+        Propietario = propietario;
         Direccion = direccion;
         Uso = uso;
         Tipo = tipo;
@@ -33,6 +36,7 @@ public class Inmueble
         Disponible = disponible;
     }
 }
+
 
 // Enumerador para Uso de Inmueble
 public enum UsoInmueble
