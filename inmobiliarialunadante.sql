@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2024 at 07:12 PM
+-- Generation Time: Apr 14, 2024 at 09:21 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -50,7 +50,7 @@ INSERT INTO `contratos` (`id`, `InquilinoId`, `InmuebleId`, `FechaInicio`, `Fech
 (10, 6, 6, '2024-04-06', '2024-04-25', NULL),
 (11, 7, 7, '2024-04-07', '2024-04-24', NULL),
 (12, 8, 8, '2024-04-08', '2024-04-23', NULL),
-(13, 9, 9, '2024-04-09', '2024-04-22', NULL);
+(13, 9, 9, '2024-04-09', '2024-05-29', NULL);
 
 -- --------------------------------------------------------
 
@@ -154,7 +154,7 @@ CREATE TABLE `propietarios` (
 --
 
 INSERT INTO `propietarios` (`Id`, `Nombre`, `Apellido`, `Dni`, `Email`, `Telefono`) VALUES
-(1, 'María', 'González', '35478965', 'maria.gonzalez@email.com', '3301547852'),
+(1, 'María', 'Gonzalez', '35478965', 'maria.gonzalez@email.com', '3301547852'),
 (2, 'Pedro', 'López', '21546897', 'pedro.lopez@email.com', '2236982358'),
 (3, 'Ana', 'Martínez', '38974521', 'ana.martinez@email.com', '2987451202'),
 (4, 'Carlos', 'Sánchez', '47852369', 'carlos.sanchez@email.com', '2863520012'),
@@ -164,6 +164,31 @@ INSERT INTO `propietarios` (`Id`, `Nombre`, `Apellido`, `Dni`, `Email`, `Telefon
 (8, 'Carmen', 'García', '23569874', 'carmen.garcia@email.com', '2987451236'),
 (9, 'Jorge', 'Pérez', '48569321', 'jorge.perez@email.com', '2236987412'),
 (10, 'Diego', 'Rodríguez', '36547892', 'diego.rodriguez@email.com', '2865987412');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `Id` int(11) NOT NULL,
+  `Nombre` varchar(50) NOT NULL,
+  `Apellido` varchar(50) NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `Clave` varchar(100) NOT NULL,
+  `Avatar` varchar(255) DEFAULT NULL,
+  `Rol` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+INSERT INTO `usuarios` (`Id`, `Nombre`, `Apellido`, `Email`, `Clave`, `Avatar`, `Rol`) VALUES
+(13, 'Luna', 'Lopardo', 'luna.lopardo@gmail.com', 'ZUL9uS2RlCEgeEI1bjz4ZBwruXpQ+A4Z5HIPQa7dTZ0=', '/Uploads\\avatar_3c90d522-eba4-4535-94ff-88273de1ea5f.png', 1),
+(15, 'admin', 'admin', 'admin@gmail.com', 'jPX1uaYX24ssdEttdOrpqpsaU7LpXs7rh3jmUcyCRA8=', '/Uploads\\avatar_42fd32d2-4998-4c0b-a015-ac4ade62991d.jpg', 1),
+(16, 'Test', 'Sinfoto', 'testsinfoto@gmail.com', 'r44dtcF6tS9a1Z6QMRi+M8OeMMPq0a2Hf6Dn8dx4bAw=', '', 2);
 
 --
 -- Indexes for dumped tables
@@ -204,6 +229,13 @@ ALTER TABLE `propietarios`
   ADD PRIMARY KEY (`Id`);
 
 --
+-- Indexes for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `Email` (`Email`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -211,13 +243,13 @@ ALTER TABLE `propietarios`
 -- AUTO_INCREMENT for table `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `inmuebles`
 --
 ALTER TABLE `inmuebles`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `inquilinos`
@@ -236,6 +268,12 @@ ALTER TABLE `pagos`
 --
 ALTER TABLE `propietarios`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
