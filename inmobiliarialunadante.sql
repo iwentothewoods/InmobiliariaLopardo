@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2024 at 09:21 PM
+-- Generation Time: Apr 14, 2024 at 09:42 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -33,24 +33,9 @@ CREATE TABLE `contratos` (
   `InmuebleId` int(11) DEFAULT NULL,
   `FechaInicio` date DEFAULT NULL,
   `FechaFin` date DEFAULT NULL,
-  `FechaTerminacion` date DEFAULT NULL
+  `FechaTerminacion` date DEFAULT NULL,
+  `Monto` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `contratos`
---
-
-INSERT INTO `contratos` (`id`, `InquilinoId`, `InmuebleId`, `FechaInicio`, `FechaFin`, `FechaTerminacion`) VALUES
-(2, 1, 1, '2024-04-03', '2024-04-30', NULL),
-(3, 2, 3, '2024-04-02', '2024-04-29', NULL),
-(4, 3, 2, '2024-04-03', '2024-04-28', NULL),
-(6, 10, 11, '2024-04-02', '2024-04-29', NULL),
-(8, 4, 4, '2024-04-04', '2024-04-27', NULL),
-(9, 5, 5, '2024-04-05', '2024-04-26', NULL),
-(10, 6, 6, '2024-04-06', '2024-04-25', NULL),
-(11, 7, 7, '2024-04-07', '2024-04-24', NULL),
-(12, 8, 8, '2024-04-08', '2024-04-23', NULL),
-(13, 9, 9, '2024-04-09', '2024-05-29', NULL);
 
 -- --------------------------------------------------------
 
