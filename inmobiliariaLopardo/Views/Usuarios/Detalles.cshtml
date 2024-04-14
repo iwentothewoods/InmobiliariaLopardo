@@ -1,0 +1,34 @@
+@model inmobiliariaLopardo.Models.Usuario
+
+@{
+    ViewData["Title"] = "Detalles del Usuario";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="detalles-container">
+            <h1>Detalles del Usuario</h1>
+
+            <ul class="list-group lista-detalles">
+                <li>@if (!string.IsNullOrEmpty(Model.Avatar))
+                {
+                    <img src="@Model.Avatar" alt="Avatar de @Model.Nombre @Model.Apellido"
+                        style="max-width: 200px; max-height: 200px;" />
+                }
+                else
+                {
+                    <img src="/Uploads/default.webp" alt="Imagen predeterminada"
+                        style="max-width: 200px; max-height: 200px;" />
+                }</li>
+                <li class="list-group-item"><strong>Nombre:</strong> @Model.Nombre</li>
+                <li class="list-group-item"><strong>Apellido:</strong> @Model.Apellido</li>
+                <li class="list-group-item"><strong>Email:</strong> @Model.Email</li>
+                <li class="list-group-item"><strong>Rol:</strong> @Model.RolNombre</li>
+            </ul>
+
+            <div class="button-container">
+                <a asp-action="Index" class="button-volver">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+</div>
