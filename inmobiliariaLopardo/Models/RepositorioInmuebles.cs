@@ -33,6 +33,7 @@ public class RepositorioInmuebles
                 {
                     while (reader.Read())
                     {
+                        
                         inmuebles.Add(new Inmueble
                         {
                             Id = reader.GetInt32("InmuebleId"),

@@ -124,14 +124,18 @@ public class RepositorioContratos
 
 
 
-    public bool Baja(int ContratoId)
+    public bool Baja(Contrato b)
     {
         using (var connection = new MySqlConnection(connectionString))
         {
-            string sql = "DELETE FROM Contratos WHERE Id = @id";
+            string sql = @"UPDATE Contratos SET
+                      FechaFin = @FechaFin
+                      WHERE Id = @Id";
             using (var command = new MySqlCommand(sql, connection))
             {
-                command.Parameters.AddWithValue("@id", ContratoId);
+                command.Parameters.AddWithValue("@FechaFin", b.FechaFin);
+                command.Parameters.AddWithValue("@Id", b.Id);
+
                 connection.Open();
                 int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();

@@ -1,6 +1,7 @@
 using System.Windows.Markup;
 using Microsoft.AspNetCore.Mvc;
 using inmobiliariaLopardo.Models;
+using MySqlX.XDevAPI.CRUD;
 
 namespace inmobiliariaLopardo.Controllers;
 
@@ -31,6 +32,13 @@ public class ContratosController : Controller
 
         RepositorioInmuebles repInmuebles = new RepositorioInmuebles();
         var listaInmuebles = repInmuebles.GetInmuebles();
+
+        for (int i = 0; i < listaInmuebles.Count; i++)
+        {
+            if(listaInmuebles[i].Disponible.Equals(false)){
+                listaInmuebles.Remove(listaInmuebles[i]);
+            }
+        }
 
         ViewBag.ListaInquilinos = listaInquilinos;
         ViewBag.ListaInmuebles = listaInmuebles;
@@ -93,31 +101,36 @@ public class ContratosController : Controller
     {
         RepositorioContratos repo = new RepositorioContratos();
         var contrato = repo.GetContrato(id);
-        if (contrato == null)
+
+        if (contrato != null && contrato.InquilinoId != null && contrato.InmuebleId != null)
         {
-            return NotFound();
+            RepositorioInquilinos repoInquilino = new RepositorioInquilinos();
+            var inquilino = repoInquilino.GetInquilino(contrato.InquilinoId);
+            if (inquilino != null)
+            {
+                contrato.Inquilino = inquilino;
+            }
+
+            RepositorioInmuebles repoInmuebles = new RepositorioInmuebles();
+            var inmueble = repoInmuebles.GetInmueble(contrato.InmuebleId);
+            if (inmueble != null)
+            {
+                contrato.Inmueble = inmueble;
+            }
         }
-        RepositorioInquilinos repInquilinos = new RepositorioInquilinos();
-        var inquilino = repInquilinos.GetInquilino(contrato.InquilinoId);
 
-        RepositorioInmuebles repInmuebles = new RepositorioInmuebles();
-        var inmueble = repInmuebles.GetInmueble(contrato.InmuebleId);
-
-        ViewBag.Inquilino = inquilino;
-        ViewBag.Inmueble = inmueble;
-        
         return View(contrato);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Eliminar(int id, Contrato i)
+    public ActionResult Eliminar(Contrato i)
     {
         try
         {
             RepositorioContratos repo = new RepositorioContratos();
-            repo.Baja(id);
-            TempData["Mensaje"] = "Eliminación realizada correctamente";
+            repo.Baja(i);
+            //TempData["Mensaje"] = "Eliminación realizada correctamente";
             return RedirectToAction(nameof(Index));
         }
         catch
