@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2024 at 09:42 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Apr 15, 2024 at 04:08 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -52,7 +52,7 @@ CREATE TABLE `inmuebles` (
   `Ambientes` int(11) DEFAULT NULL,
   `Latitud` double DEFAULT NULL,
   `Longitud` double DEFAULT NULL,
-  `Precio` double NOT NULL,
+  `precio` decimal(10,2) DEFAULT NULL,
   `Activo` tinyint(1) NOT NULL,
   `Disponible` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -61,19 +61,19 @@ CREATE TABLE `inmuebles` (
 -- Dumping data for table `inmuebles`
 --
 
-INSERT INTO `inmuebles` (`Id`, `PropietarioId`, `Direccion`, `Uso`, `Tipo`, `Ambientes`, `Latitud`, `Longitud`, `Precio`, `Activo`, `Disponible`) VALUES
-(1, 1, 'Los Teros 5834, San Luis', 1, 2, 3, 40.71, -74.3, 150000, 1, 0),
-(2, 2, 'Avenida Norte 456, Merlo', 2, 1, 2, 35.68, 139.69, 200000, 0, 1),
-(3, 3, 'Calle Pedrada 789, CABA', 2, 3, 4, 51.5, -0.12, 300000, 1, 1),
-(4, 9, 'Paseo Marítimo 101, Córdoba', 1, 2, 1, -33.86, 151.2, 100000, 1, 0),
-(5, 4, 'Av Principal 789, Celestina', 2, 1, 3, 45.42, -75.69, 250000, 1, 1),
-(6, 5, 'Corazonada 4456, San Miguel', 2, 3, 2, -23.55, -46.63, 180000, 1, 1),
-(7, 6, 'Avenida 12345, Ciudad', 1, 4, 4, 52.52, 13.405, 350000, 1, 1),
-(8, 2, 'La Patrona 67890, Orones', 1, 2, 2, 40.73, -73.93, 160000, 0, 1),
-(9, 8, 'Mate Verde 67890, San Martin', 1, 2, 2, 40.73, -73.93, 220000, 1, 1),
-(10, 8, 'Pedrera 352, San Martín', 1, 2, 2, 40.73, -53.85, 560000, 1, 0),
-(11, 7, 'Los Madarinos 2598, Carpintería', 2, 4, 2, 34.05, -118.24, 200000, 1, 1),
-(12, 10, 'Avenida Sur 987, San Luis', 2, 3, 3, 48.85, 2.35, 280000, 1, 1);
+INSERT INTO `inmuebles` (`Id`, `PropietarioId`, `Direccion`, `Uso`, `Tipo`, `Ambientes`, `Latitud`, `Longitud`, `precio`, `Activo`, `Disponible`) VALUES
+(1, 1, 'Los Teros 5834, San Luis', 1, 2, 3, 40.71, -74.3, 150000.00, 1, 0),
+(2, 2, 'Avenida Norte 456, Merlo', 2, 1, 2, 35.68, 139.69, 200000.00, 0, 0),
+(3, 3, 'Calle Pedrada 789, CABA', 2, 3, 4, 51.5, -0.12, 300000.00, 1, 0),
+(4, 9, 'Paseo Marítimo 101, Córdoba', 1, 2, 1, -33.86, 151.2, 100000.00, 1, 0),
+(5, 4, 'Av Principal 789, Celestina', 2, 1, 3, 45.42, -75.69, 250000.00, 1, 0),
+(6, 5, 'Corazonada 4456, San Miguel', 2, 3, 2, -23.55, -46.63, 180000.00, 1, 0),
+(7, 6, 'Avenida 12345, Ciudad', 1, 4, 4, 52.52, 13.405, 350000.00, 1, 0),
+(8, 2, 'La Patrona 67890, Orones', 1, 2, 2, 40.73, -73.93, 160000.00, 0, 0),
+(9, 8, 'Mate Verde 67890, San Martin', 1, 2, 2, 40.73, -73.93, 220000.00, 1, 0),
+(10, 8, 'Pedrera 352, San Martín', 1, 2, 2, 40.73, -53.85, 560000.00, 1, 0),
+(11, 7, 'Los Madarinos 2598, Carpintería', 2, 4, 2, 34.05, -118.24, 200000.00, 1, 0),
+(12, 10, 'Avenida Sur 987, San Luis', 2, 3, 3, 48.85, 2.35, 280000.00, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -185,7 +185,8 @@ INSERT INTO `usuarios` (`Id`, `Nombre`, `Apellido`, `Email`, `Clave`, `Avatar`, 
 ALTER TABLE `contratos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `InquilinoId` (`InquilinoId`),
-  ADD KEY `InmuebleId` (`InmuebleId`);
+  ADD KEY `InmuebleId` (`InmuebleId`),
+  ADD KEY `Monto` (`Monto`);
 
 --
 -- Indexes for table `inmuebles`
@@ -228,7 +229,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `inmuebles`

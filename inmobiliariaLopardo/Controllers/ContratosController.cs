@@ -16,10 +16,25 @@ public class ContratosController : Controller
 
 
 
-    public IActionResult Index()
+    public IActionResult Index(int? estadoId, int? inmId)
     {
         RepositorioContratos rp = new RepositorioContratos();
-        var lista = rp.GetContratos();
+        IList<Contrato> lista;
+        var fin = DateTime.Now;
+
+        if(estadoId.Equals(1))
+        {       
+            lista = rp.GetContratosActivos(fin);
+        }else if(estadoId.Equals(2))
+        {
+            lista = rp.GetContratosInactivos(fin);
+        }else if(inmId.HasValue)
+        {
+            lista = rp.GetPorInmuebles(inmId.Value);
+        }else
+        {
+            lista = rp.GetContratos();
+        }
 
         return View(lista);
     }
@@ -36,7 +51,8 @@ public class ContratosController : Controller
         for (int i = 0; i < listaInmuebles.Count; i++)
         {
             if(listaInmuebles[i].Disponible.Equals(false)){
-                listaInmuebles.Remove(listaInmuebles[i]);
+                listaInmuebles.RemoveAt(i);
+                i--;
             }
         }
 
@@ -52,9 +68,16 @@ public class ContratosController : Controller
     {
         try
         {
-            RepositorioContratos repo = new RepositorioContratos();
-            repo.Alta(c);
-            return RedirectToAction(nameof(Index));
+            if(c.FechaInicio <= c.FechaFin){
+                RepositorioContratos repo = new RepositorioContratos();
+                RepositorioInmuebles repoi = new RepositorioInmuebles();
+                repo.Alta(c);
+                repoi.altaContrato(c);
+                return RedirectToAction(nameof(Index));
+            }else{
+                TempData["Mensaje"] = "Ingrese una fecha final posterior a la fecha de inicio";
+                return RedirectToAction(nameof(Crear));
+            }
         }
         catch
         {
@@ -129,7 +152,9 @@ public class ContratosController : Controller
         try
         {
             RepositorioContratos repo = new RepositorioContratos();
+            RepositorioInmuebles repoi = new RepositorioInmuebles();
             repo.Baja(i);
+            repoi.bajaContrato(i);
             //TempData["Mensaje"] = "Eliminación realizada correctamente";
             return RedirectToAction(nameof(Index));
         }

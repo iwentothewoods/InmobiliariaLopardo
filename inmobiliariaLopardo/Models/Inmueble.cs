@@ -10,7 +10,7 @@ public class Inmueble
     public int? Ambientes { get; set; }
     public double? Latitud { get; set; }
     public double? Longitud { get; set; }
-    public double Precio { get; set; }
+    public decimal Precio { get; set; }
     public bool Activo { get; set; }
     public bool Disponible { get; set; }
 
@@ -20,7 +20,7 @@ public class Inmueble
 
     }
 
-    public Inmueble(int id, int propietarioId, Propietario propietario, string direccion, UsoInmueble uso, TipoInmueble tipo, int? ambientes, double? latitud, double? longitud, double precio, bool activo, bool disponible)
+    public Inmueble(int id, int propietarioId, Propietario propietario, string direccion, UsoInmueble uso, TipoInmueble tipo, int? ambientes, double? latitud, double? longitud, decimal precio, bool activo, bool disponible)
     {
         Id = id;
         PropietarioId = propietarioId;

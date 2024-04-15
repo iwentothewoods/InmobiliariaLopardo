@@ -27,6 +27,18 @@
         </div>
     </form>
 
+    <form asp-controller="Inmuebles" asp-action="Index" method="get" class="custom-form">
+        <div class="form-group">
+            <label for="tipoId">Disponibilidad:</label>
+            <select class="form-control form-control-sm dropdown-container" id="dispId" name="dispId">
+                <option value="">Todos</option>
+                <option value="1">Ocupado</option>
+                <option value="2">Disponible</option>
+            </select>
+            <button type="submit" class="btn btn-secondary btn-sm">Filtrar</button>
+        </div>
+    </form>
+
 
     <thead>
         <tr>

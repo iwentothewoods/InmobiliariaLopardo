@@ -21,18 +21,21 @@ namespace inmobiliariaLopardo.Models
         [DataType(DataType.Date)]
         public DateTime FechaTerminacion { get; set; }
 
+        public decimal Monto { get; set; }
+
         public Contrato()
         {
 
         }
 
-        public Contrato(int inquilinoId, int inmuebleId, DateTime fechaInicio, DateTime fechaFin, DateTime fechaTerminacion)
+        public Contrato(int inquilinoId, int inmuebleId, DateTime fechaInicio, DateTime fechaFin, DateTime fechaTerminacion, decimal monto)
         {
             InquilinoId = inquilinoId;
             InmuebleId = inmuebleId;
             FechaInicio = fechaInicio;
             FechaFin = fechaFin;
             FechaTerminacion = fechaTerminacion;
+            Monto = monto;
         }
     }
 }

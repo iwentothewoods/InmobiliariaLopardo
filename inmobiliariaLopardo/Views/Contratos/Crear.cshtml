@@ -44,6 +44,11 @@
                 <span asp-validation-for="FechaFin" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Monto" class="control-label">Monto</label>
+                <input type="number" asp-for="Monto" class="form-control" />
+                <span asp-validation-for="Monto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" /> <a asp-action="Index"
                     class="btn btn-volver">Volver a la lista</a>
             </div>

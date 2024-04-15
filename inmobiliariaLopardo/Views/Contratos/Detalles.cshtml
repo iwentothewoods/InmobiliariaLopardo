@@ -14,6 +14,8 @@
                 </li>
                 <li class="list-group-item"><strong>Fecha de Finalización:</strong> @Model.FechaFin.ToShortDateString()
                 </li>
+                <li class="list-group-item"><strong>Monto</strong> @Model.Monto
+                </li>
                 <li class="list-group-item"><strong>Inmueble:</strong> @Model.Inmueble.Direccion
                     <a asp-controller="inmuebles" asp-action="Detalles" asp-route-id="@Model.Inmueble.Id"
                         class="btn btn-info">Ver más</a>

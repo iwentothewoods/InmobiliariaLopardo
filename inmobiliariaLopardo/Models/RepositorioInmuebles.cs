@@ -44,7 +44,7 @@ public class RepositorioInmuebles
                             Latitud = reader.GetDouble("Latitud"),
                             Longitud = reader.GetDouble("Longitud"),
                             Ambientes = reader.GetInt32("Ambientes"),
-                            Precio = reader.GetDouble("Precio"),
+                            Precio = reader.GetDecimal("Precio"),
                             Disponible = reader.GetBoolean("Disponible"),
                             Activo = reader.GetBoolean("Activo"),
                             Propietario = new Propietario
@@ -86,7 +86,7 @@ public class RepositorioInmuebles
                             Latitud = reader.GetDouble(nameof(Inmueble.Latitud)),
                             Longitud = reader.GetDouble(nameof(Inmueble.Longitud)),
                             Ambientes = reader.GetInt32(nameof(Inmueble.Ambientes)),
-                            Precio = reader.GetDouble(nameof(Inmueble.Precio)),
+                            Precio = reader.GetDecimal(nameof(Inmueble.Precio)),
                             Disponible = reader.GetBoolean(nameof(Inmueble.Disponible)),
                             Activo = reader.GetBoolean(nameof(Inmueble.Activo))
                         };
@@ -119,7 +119,7 @@ public class RepositorioInmuebles
                             Direccion = reader.GetString("Direccion"),
                             Uso = (UsoInmueble)reader.GetInt32("Uso"),
                             Tipo = (TipoInmueble)reader.GetInt32("Tipo"),
-                            Precio = reader.GetDouble("Precio"),
+                            Precio = reader.GetDecimal("Precio"),
                             Disponible = reader.GetBoolean("Disponible"),
                             Activo = reader.GetBoolean("Activo")
                         });
@@ -159,7 +159,52 @@ public class RepositorioInmuebles
                             Direccion = reader.GetString("Direccion"),
                             Uso = (UsoInmueble)reader.GetInt32("Uso"),
                             Tipo = (TipoInmueble)reader.GetInt32("Tipo"),
-                            Precio = reader.GetDouble("Precio"),
+                            Precio = reader.GetDecimal("Precio"),
+                            Disponible = reader.GetBoolean("Disponible"),
+                            Activo = reader.GetBoolean("Activo"),
+                            Propietario = new Propietario
+                        {
+                            Nombre = reader.GetString("NombrePropietario"),
+                            Apellido = reader.GetString("ApellidoPropietario")
+                        }
+                        });
+                    }
+                }
+            }
+        }
+        return listaInmuebles;
+    }
+
+    public List<Inmueble> GetInmueblesPorDisponibilidad(int dispId)
+    {
+        List<Inmueble> listaInmuebles = new List<Inmueble>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = @"
+            SELECT 
+                i.*, 
+                p.Nombre AS NombrePropietario, 
+                p.Apellido AS ApellidoPropietario 
+            FROM Inmuebles i
+            INNER JOIN Propietarios p ON i.PropietarioId = p.Id
+            WHERE i.Disponible = @DispId";
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@DispId", dispId);
+
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaInmuebles.Add(new Inmueble
+                        {
+                            Id = reader.GetInt32("Id"),
+                            Direccion = reader.GetString("Direccion"),
+                            Uso = (UsoInmueble)reader.GetInt32("Uso"),
+                            Tipo = (TipoInmueble)reader.GetInt32("Tipo"),
+                            Precio = reader.GetDecimal("Precio"),
                             Disponible = reader.GetBoolean("Disponible"),
                             Activo = reader.GetBoolean("Activo"),
                             Propietario = new Propietario
@@ -288,5 +333,45 @@ public class RepositorioInmuebles
             }
         }
         return listaIDs;
+    }
+
+    public bool altaContrato(Contrato c){
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql2 = @"UPDATE Inmuebles SET
+                      Disponible = @Disponible
+                      WHERE Id = @Id";
+
+            using (var command = new MySqlCommand(sql2, connection))
+            {
+                command.Parameters.AddWithValue("@Disponible", false);
+                command.Parameters.AddWithValue("@Id", c.InmuebleId);
+
+                connection.Open();
+                int rowsAffected = command.ExecuteNonQuery();
+                connection.Close();
+                return rowsAffected > 0;
+            }
+        }
+    }
+
+    public bool bajaContrato(Contrato c){
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql2 = @"UPDATE Inmuebles SET
+                      Disponible = @Disponible
+                      WHERE Id = @Id";
+
+            using (var command = new MySqlCommand(sql2, connection))
+            {
+                command.Parameters.AddWithValue("@Disponible", true);
+                command.Parameters.AddWithValue("@Id", c.InmuebleId);
+
+                connection.Open();
+                int rowsAffected = command.ExecuteNonQuery();
+                connection.Close();
+                return rowsAffected > 0;
+            }
+        }
     }
 }

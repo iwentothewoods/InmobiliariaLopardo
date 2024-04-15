@@ -21,7 +21,7 @@ public class RepositorioContratos
         {
             var sql = @"
             SELECT 
-                c.Id, c.InquilinoId, c.InmuebleId, c.FechaInicio, c.FechaFin,
+                c.Id, c.InquilinoId, c.InmuebleId, c.FechaInicio, c.FechaFin, c.Monto,
                 i.Nombre AS NombreInquilino, i.Apellido AS ApellidoInquilino,
                 im.Direccion AS DireccionInmueble,
                 p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
@@ -44,6 +44,175 @@ public class RepositorioContratos
                             InmuebleId = reader.GetInt32("InmuebleId"),
                             FechaInicio = reader.GetDateTime("FechaInicio"),
                             FechaFin = reader.GetDateTime("FechaFin"),
+                            Monto = reader.GetDecimal("Monto"),
+                            Inquilino = new Inquilino
+                            {
+                                Nombre = reader.GetString("NombreInquilino"),
+                                Apellido = reader.GetString("ApellidoInquilino")
+                            },
+                            Inmueble = new Inmueble
+                            {
+                                Direccion = reader.GetString("DireccionInmueble"),
+                                Propietario = new Propietario
+                                {
+                                    Nombre = reader.GetString("NombrePropietario"),
+                                    Apellido = reader.GetString("ApellidoPropietario")
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        return contratos;
+    }
+
+    public IList<Contrato> GetContratosActivos(DateTime fin)
+    {
+        List<Contrato> contratos = new List<Contrato>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = @"
+            SELECT
+                 c.*,
+                 i.Nombre AS NombreInquilino, i.Apellido AS ApellidoInquilino,
+                 im.Direccion AS DireccionInmueble,
+                 p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
+            FROM Contratos c
+            INNER JOIN inquilinos i ON c.InquilinoId = i.Id
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id
+            INNER JOIN propietarios p ON im.PropietarioId = p.Id
+            WHERE c.FechaFin > @Fin";
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@Fin", fin);
+
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        contratos.Add(new Contrato
+                        {
+                            Id = reader.GetInt32("Id"),
+                            InquilinoId = reader.GetInt32("InquilinoId"),
+                            InmuebleId = reader.GetInt32("InmuebleId"),
+                            FechaInicio = reader.GetDateTime("FechaInicio"),
+                            FechaFin = reader.GetDateTime("FechaFin"),
+                            Monto = reader.GetDecimal("Monto"),
+                            Inquilino = new Inquilino
+                            {
+                                Nombre = reader.GetString("NombreInquilino"),
+                                Apellido = reader.GetString("ApellidoInquilino")
+                            },
+                            Inmueble = new Inmueble
+                            {
+                                Direccion = reader.GetString("DireccionInmueble"),
+                                Propietario = new Propietario
+                                {
+                                    Nombre = reader.GetString("NombrePropietario"),
+                                    Apellido = reader.GetString("ApellidoPropietario")
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        return contratos;
+    }
+
+    public IList<Contrato> GetContratosInactivos(DateTime fin)
+    {
+        List<Contrato> contratos = new List<Contrato>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = @"
+            SELECT
+                 c.*,
+                 i.Nombre AS NombreInquilino, i.Apellido AS ApellidoInquilino,
+                 im.Direccion AS DireccionInmueble,
+                 p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
+            FROM Contratos c
+            INNER JOIN inquilinos i ON c.InquilinoId = i.Id
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id
+            INNER JOIN propietarios p ON im.PropietarioId = p.Id
+            WHERE c.FechaFin <= @Fin";
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@Fin", fin);
+
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        contratos.Add(new Contrato
+                        {
+                            Id = reader.GetInt32("Id"),
+                            InquilinoId = reader.GetInt32("InquilinoId"),
+                            InmuebleId = reader.GetInt32("InmuebleId"),
+                            FechaInicio = reader.GetDateTime("FechaInicio"),
+                            FechaFin = reader.GetDateTime("FechaFin"),
+                            Monto = reader.GetDecimal("Monto"),
+                            Inquilino = new Inquilino
+                            {
+                                Nombre = reader.GetString("NombreInquilino"),
+                                Apellido = reader.GetString("ApellidoInquilino")
+                            },
+                            Inmueble = new Inmueble
+                            {
+                                Direccion = reader.GetString("DireccionInmueble"),
+                                Propietario = new Propietario
+                                {
+                                    Nombre = reader.GetString("NombrePropietario"),
+                                    Apellido = reader.GetString("ApellidoPropietario")
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        return contratos;
+    }
+
+    public IList<Contrato> GetPorInmuebles(int inmId)
+    {
+        List<Contrato> contratos = new List<Contrato>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = @"
+            SELECT
+                 c.*,
+                 i.Nombre AS NombreInquilino, i.Apellido AS ApellidoInquilino,
+                 im.Direccion AS DireccionInmueble,
+                 p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
+            FROM Contratos c
+            INNER JOIN inquilinos i ON c.InquilinoId = i.Id
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id
+            INNER JOIN propietarios p ON im.PropietarioId = p.Id
+            WHERE c.InmuebleId = @InmId";
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@InmId", inmId);
+
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        contratos.Add(new Contrato
+                        {
+                            Id = reader.GetInt32("Id"),
+                            InquilinoId = reader.GetInt32("InquilinoId"),
+                            InmuebleId = reader.GetInt32("InmuebleId"),
+                            FechaInicio = reader.GetDateTime("FechaInicio"),
+                            FechaFin = reader.GetDateTime("FechaFin"),
+                            Monto = reader.GetDecimal("Monto"),
                             Inquilino = new Inquilino
                             {
                                 Nombre = reader.GetString("NombreInquilino"),
@@ -73,7 +242,7 @@ public class RepositorioContratos
         Contrato? Contrato = null;
         using (var connection = new MySqlConnection(connectionString))
         {
-            var sql = $"SELECT {nameof(Contrato.Id)}, {nameof(Contrato.InquilinoId)}, {nameof(Contrato.InmuebleId)}, {nameof(Contrato.FechaInicio)}, {nameof(Contrato.FechaFin)} FROM contratos WHERE {nameof(Contrato.Id)} = @id";
+            var sql = $"SELECT {nameof(Contrato.Id)}, {nameof(Contrato.InquilinoId)}, {nameof(Contrato.InmuebleId)}, {nameof(Contrato.FechaInicio)}, {nameof(Contrato.FechaFin)}, {nameof(Contrato.Monto)} FROM contratos WHERE {nameof(Contrato.Id)} = @id";
             using (var command = new MySqlCommand(sql, connection))
             {
                 command.Parameters.AddWithValue("@id", id);
@@ -89,6 +258,7 @@ public class RepositorioContratos
                             InmuebleId = reader.GetInt32(nameof(Contrato.InmuebleId)),
                             FechaInicio = reader.GetDateTime(nameof(Contrato.FechaInicio)),
                             FechaFin = reader.GetDateTime(nameof(Contrato.FechaFin)),
+                            Monto = reader.GetDecimal(nameof(Contrato.Monto)),
                         };
                     }
                 }
@@ -102,8 +272,8 @@ public class RepositorioContratos
         int contratoId = -1;
         using (var connection = new MySqlConnection(connectionString))
         {
-            var sql = @"INSERT INTO Contratos (InquilinoId, InmuebleId, FechaInicio, FechaFin)
-                    VALUES (@InquilinoId, @InmuebleId, @FechaInicio, @FechaFin);
+            var sql = @"INSERT INTO Contratos (InquilinoId, InmuebleId, FechaInicio, FechaFin, Monto)
+                    VALUES (@InquilinoId, @InmuebleId, @FechaInicio, @FechaFin, @Monto);
                     SELECT LAST_INSERT_ID();";
 
             using (var command = new MySqlCommand(sql, connection))
@@ -113,6 +283,7 @@ public class RepositorioContratos
                 command.Parameters.AddWithValue("@InmuebleId", contrato.InmuebleId);
                 command.Parameters.AddWithValue("@FechaInicio", contrato.FechaInicio);
                 command.Parameters.AddWithValue("@FechaFin", contrato.FechaFin);
+                command.Parameters.AddWithValue("@Monto", contrato.Monto);
 
                 connection.Open();
                 contratoId = Convert.ToInt32(command.ExecuteScalar());
@@ -139,10 +310,12 @@ public class RepositorioContratos
                 connection.Open();
                 int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();
-
+                
                 return rowsAffected > 0;
             }
         }
+
+        
     }
 
     public bool Modificacion(Contrato i)

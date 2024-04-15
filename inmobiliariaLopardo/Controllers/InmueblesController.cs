@@ -13,7 +13,7 @@ public class InmueblesController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index(int? tipoId)
+    public IActionResult Index(int? tipoId, int? dispId)
     {
         RepositorioInmuebles rp = new RepositorioInmuebles();
         IList<Inmueble> lista;
@@ -21,6 +21,9 @@ public class InmueblesController : Controller
         if (tipoId.HasValue)
         {
             lista = rp.GetInmueblesPorTipo(tipoId.Value);
+        }else if(dispId.HasValue)
+        {
+            lista = rp.GetInmueblesPorDisponibilidad(dispId.Value - 1);
         }
         else
         {
