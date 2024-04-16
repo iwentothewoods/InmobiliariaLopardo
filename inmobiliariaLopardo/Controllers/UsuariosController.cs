@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
+using MySql.Data.MySqlClient;
 
 namespace inmobiliariaLopardo.Controllers;
 
@@ -36,6 +37,7 @@ public class UsuariosController : Controller
         this.environment = environment;
     }
 
+    [Authorize(Roles = "Administrador")]
     public IActionResult Index()
     {
         RepositorioUsuarios ru = new RepositorioUsuarios();
@@ -44,16 +46,19 @@ public class UsuariosController : Controller
     }
 
     // GET: Usuarios/Crear
+    [Authorize(Roles = "Administrador")]
     public ActionResult Crear()
     {
         return View();
     }
 
     // POST: Usuarios/Crear
+    [Authorize(Roles = "Administrador")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Crear(Usuario u)
     {
+        RepositorioUsuarios ru = new RepositorioUsuarios();
         if (!ModelState.IsValid)
             return View(u);
 
@@ -67,6 +72,14 @@ public class UsuariosController : Controller
                             numBytesRequested: 256 / 8));
             u.Clave = hashed;
 
+            var res = ru.Alta(u);
+            if (res == -2)
+            {
+                //ModelState.AddModelError("", "Ya existe una cuenta registrada con ese email.");
+                //TempData["AlertMessage"] = "Ya existe una cuenta registrada con ese email.";
+                // TempData["AlertType"] = "error";
+                return RedirectToAction("Crear");
+            }
 
             if (u.AvatarFile != null)
             {
@@ -85,22 +98,31 @@ public class UsuariosController : Controller
                     u.AvatarFile.CopyTo(stream);
                 }
             }
-
             RepositorioUsuarios repo = new RepositorioUsuarios();
             repo.Alta(u);
-
             return RedirectToAction(nameof(Index));
         }
-        catch (Exception ex)
+        catch (MySqlException ex)
         {
-            ModelState.AddModelError("", "Error al guardar el usuario: " + ex.Message);
-            ViewBag.Roles = Usuario.ObtenerRoles();
-            return View(u);
+            if (ex.Number == 1062) // Código de error para clave duplicada > Mysql
+            {
+                ModelState.AddModelError("", "Ya existe una cuenta registrada con ese email.");
+                TempData["AlertMessage"] = "Ya existe una cuenta registrada con ese email.";
+                TempData["AlertType"] = "error";
+                return View(u);
+            }
+            else
+            {
+                ModelState.AddModelError("", "Error al guardar el usuario: " + ex.Message);
+                ViewBag.Roles = Usuario.ObtenerRoles();
+                return View(u);
+            }
         }
     }
 
 
     // GET: Usuarios/Edit/5
+    [Authorize(Roles = "Administrador")]
     public ActionResult Editar(int id)
     {
         RepositorioUsuarios repo = new RepositorioUsuarios();
@@ -112,6 +134,7 @@ public class UsuariosController : Controller
     // POST: Usuarios/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Administrador")]
     public ActionResult Editar(int id, Usuario u)
     {
         try
@@ -127,6 +150,7 @@ public class UsuariosController : Controller
     }
 
     // GET: Usuarios/Delete/5
+    [Authorize(Roles = "Administrador")]
     public ActionResult Eliminar(int id)
     {
         RepositorioUsuarios repo = new RepositorioUsuarios();
@@ -135,6 +159,7 @@ public class UsuariosController : Controller
     }
 
     // POST: Usuarios/Delete/5
+    [Authorize(Roles = "Administrador")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Eliminar(int id, Usuario u)
@@ -153,6 +178,7 @@ public class UsuariosController : Controller
     }
 
     [Route("Usuarios/detalles/{id}")]
+    [Authorize(Roles = "Administrador")]
     public ActionResult Detalles(int id)
     {
         RepositorioUsuarios repo = new RepositorioUsuarios();

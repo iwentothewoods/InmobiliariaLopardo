@@ -259,3 +259,9 @@ a {
 .iniciar-sesion h1{
     margin-bottom: 20px;
 }
+
+.alert-danger ul li{
+    margin-bottom: 10px;
+    list-style: none;
+    padding: auto;
+}

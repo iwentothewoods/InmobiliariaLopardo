@@ -54,11 +54,9 @@ public class RepositorioUsuarios
         return Usuarios;
     }
 
-
-
     public Usuario GetUsuario(int id)
     {
-        Usuario usuario = null;
+        Usuario? usuario = null;
         using (var connection = new MySqlConnection(connectionString))
         {
             var sql = $"SELECT {nameof(Usuario.Id)}, {nameof(Usuario.Nombre)}, {nameof(Usuario.Apellido)}, {nameof(Usuario.Email)}, {nameof(Usuario.Clave)}, {nameof(Usuario.Rol)}, {nameof(Usuario.Avatar)} FROM usuarios WHERE {nameof(Usuario.Id)} = @id";
@@ -89,7 +87,15 @@ public class RepositorioUsuarios
 
     public int Alta(Usuario u)
     {
-        int res = -1;
+        var res = -1;
+        bool flag = CorreoRepetido(u);
+
+        if (!flag)
+        {
+            res = -2;
+            return res;
+        }
+
         using (var connection = new MySqlConnection(connectionString))
         {
             var sql = @$"INSERT INTO usuarios ({nameof(Usuario.Nombre)}, {nameof(Usuario.Apellido)}, {nameof(Usuario.Email)}, 
@@ -166,7 +172,7 @@ public class RepositorioUsuarios
 
     public Usuario ObtenerPorEmail(string email)
     {
-        Usuario usuario = null;
+        Usuario? usuario = null;
         using (var connection = new MySqlConnection(connectionString))
         {
             var sql = $"SELECT {nameof(Usuario.Id)}, {nameof(Usuario.Nombre)}, {nameof(Usuario.Apellido)}, {nameof(Usuario.Email)}, {nameof(Usuario.Clave)}, {nameof(Usuario.Rol)}, {nameof(Usuario.Avatar)} FROM usuarios WHERE {nameof(Usuario.Email)} = @email";
@@ -195,6 +201,39 @@ public class RepositorioUsuarios
         return usuario;
     }
 
+    public bool CorreoRepetido(Usuario usuario)
+    {
+        bool correoRepetido = false;
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            string query = @"SELECT Id FROM Usuarios WHERE Email = @Email;";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Email", usuario.Email);
+
+                try
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Si el correo ya existe en la base de datos, correoRepetido será true
+                            correoRepetido = true;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error al comprobar correo repetido: " + ex.Message);
+                }
+            }
+        }
+
+        return correoRepetido;
+    }
 
 
 }
