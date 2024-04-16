@@ -1,6 +1,7 @@
 using System.Windows.Markup;
 using Microsoft.AspNetCore.Mvc;
 using inmobiliariaLopardo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace inmobiliariaLopardo.Controllers;
 
@@ -72,6 +73,7 @@ public class PropietariosController : Controller
     }
 
     // GET: Propietarios/Delete/5
+    [Authorize(Roles = "Administrador")]
     public ActionResult Eliminar(int id)
     {
         RepositorioPropietarios repo = new RepositorioPropietarios();
@@ -82,6 +84,7 @@ public class PropietariosController : Controller
     // POST: Propietarios/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Administrador")]
     public ActionResult Eliminar(int id, Propietario p)
     {
         try

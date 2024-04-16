@@ -1,6 +1,7 @@
 using System.Windows.Markup;
 using Microsoft.AspNetCore.Mvc;
 using inmobiliariaLopardo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace inmobiliariaLopardo.Controllers;
 
@@ -21,7 +22,8 @@ public class InmueblesController : Controller
         if (tipoId.HasValue)
         {
             lista = rp.GetInmueblesPorTipo(tipoId.Value);
-        }else if(dispId.HasValue)
+        }
+        else if (dispId.HasValue)
         {
             lista = rp.GetInmueblesPorDisponibilidad(dispId.Value - 1);
         }
@@ -90,6 +92,7 @@ public class InmueblesController : Controller
     }
 
     // GET: inmuebles/Delete/5
+    [Authorize(Roles = "Administrador")]
     public ActionResult Eliminar(int id)
     {
         RepositorioInmuebles repo = new RepositorioInmuebles();
@@ -113,6 +116,7 @@ public class InmueblesController : Controller
     // POST: inmuebles/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Administrador")]
     public ActionResult Eliminar(int id, Inmueble i)
     {
         try

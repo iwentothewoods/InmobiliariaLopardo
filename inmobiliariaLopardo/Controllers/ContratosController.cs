@@ -2,6 +2,7 @@ using System.Windows.Markup;
 using Microsoft.AspNetCore.Mvc;
 using inmobiliariaLopardo.Models;
 using MySqlX.XDevAPI.CRUD;
+using Microsoft.AspNetCore.Authorization;
 
 namespace inmobiliariaLopardo.Controllers;
 
@@ -22,21 +23,28 @@ public class ContratosController : Controller
         IList<Contrato> lista;
         var fin = DateTime.Now;
 
-        if(estadoId.Equals(1))
-        {       
+        if (estadoId.Equals(1))
+        {
             lista = rp.GetContratosActivos(fin);
-        }else if(estadoId.Equals(2))
+        }
+        else if (estadoId.Equals(2))
         {
             lista = rp.GetContratosInactivos(fin);
-        }else if(inmId.HasValue)
+        }
+        else if (inmId.HasValue)
         {
             lista = rp.GetPorInmuebles(inmId.Value);
-        }else if(fechaIList.HasValue && fechaFList.HasValue)
+        }
+        else if (fechaIList.HasValue && fechaFList.HasValue)
         {
             lista = rp.GetContratosPorRango(fechaIList.Value, fechaFList.Value);
-        }else if(diasId.HasValue){
+        }
+        else if (diasId.HasValue)
+        {
             lista = rp.GetContratosAVencer(fin.AddDays(diasId.Value));
-        }else{
+        }
+        else
+        {
             lista = rp.GetContratos();
         }
 
@@ -54,7 +62,8 @@ public class ContratosController : Controller
 
         for (int i = 0; i < listaInmuebles.Count; i++)
         {
-            if(listaInmuebles[i].Disponible.Equals(false)){
+            if (listaInmuebles[i].Disponible.Equals(false))
+            {
                 listaInmuebles.RemoveAt(i);
                 i--;
             }
@@ -72,13 +81,16 @@ public class ContratosController : Controller
     {
         try
         {
-            if(c.FechaInicio <= c.FechaFin){
+            if (c.FechaInicio <= c.FechaFin)
+            {
                 RepositorioContratos repo = new RepositorioContratos();
                 RepositorioInmuebles repoi = new RepositorioInmuebles();
                 repo.Alta(c);
                 repoi.altaContrato(c);
                 return RedirectToAction(nameof(Index));
-            }else{
+            }
+            else
+            {
                 TempData["Mensaje"] = "Ingrese una fecha final posterior a la fecha de inicio";
                 return RedirectToAction(nameof(Crear));
             }
@@ -123,7 +135,7 @@ public class ContratosController : Controller
             return View();
         }
     }
-
+    [Authorize(Roles = "Administrador")]
     public ActionResult Eliminar(int id)
     {
         RepositorioContratos repo = new RepositorioContratos();
@@ -151,6 +163,7 @@ public class ContratosController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Administrador")]
     public ActionResult Eliminar(Contrato i)
     {
         try

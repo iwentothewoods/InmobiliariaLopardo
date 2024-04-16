@@ -1,6 +1,7 @@
 using System.Windows.Markup;
 using Microsoft.AspNetCore.Mvc;
 using inmobiliariaLopardo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace inmobiliariaLopardo.Controllers;
 
@@ -64,6 +65,7 @@ public class InquilinosController : Controller
         }
     }
 
+    [Authorize(Roles = "Administrador")]
     public ActionResult Eliminar(int id)
     {
         RepositorioInquilinos repo = new RepositorioInquilinos();
@@ -73,6 +75,7 @@ public class InquilinosController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Administrador")]
     public ActionResult Eliminar(int id, Inquilino p)
     {
         try
@@ -93,7 +96,7 @@ public class InquilinosController : Controller
     {
         RepositorioInquilinos repo = new RepositorioInquilinos();
         var inquilino = repo.GetInquilino(id);
-        
+
         return View(inquilino);
     }
 }
