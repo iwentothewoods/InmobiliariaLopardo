@@ -38,6 +38,31 @@
             <button type="submit" class="btn btn-secondary btn-sm">Filtrar</button>
         </div>
     </form>
+    <form asp-controller="Contratos" asp-action="Index" method="get" class="custom-form">
+        <div class="form-group">
+            <label for="fechaIList">Fecha Inicial</label>
+            <input type="date" list="fechaI" id="fechaIList" name="fechaIList"/>
+              <datalist id="fechaI">
+              </datalist>
+            <label for="fechaFList">Fecha Final</label>
+            <input type="date" list="fechaF" id="fechaFList" name="fechaFList"/>
+              <datalist id="fechaF">
+              </datalist>
+            <button type="submit" class="btn btn-secondary btn-sm">Filtrar</button>
+        </div>
+    </form>
+    <form asp-controller="Contratos" asp-action="Index" method="get" class="custom-form">
+        <div class="form-group">
+            <label for="diasId">Dias a vencer</label>
+            <input type="number" list="dias" id="diasId" name="diasId"/>
+              <datalist id="dias">
+                <option value="30"></option>
+                <option value="60"></option>
+                <option value="90"></option>
+              </datalist>
+            <button type="submit" class="btn btn-secondary btn-sm">Filtrar</button>
+        </div>
+    </form>
 
     <thead>
         <tr>

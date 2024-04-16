@@ -16,7 +16,7 @@ public class ContratosController : Controller
 
 
 
-    public IActionResult Index(int? estadoId, int? inmId)
+    public IActionResult Index(int? estadoId, int? inmId, DateTime? fechaIList, DateTime? fechaFList, int? diasId)
     {
         RepositorioContratos rp = new RepositorioContratos();
         IList<Contrato> lista;
@@ -31,8 +31,12 @@ public class ContratosController : Controller
         }else if(inmId.HasValue)
         {
             lista = rp.GetPorInmuebles(inmId.Value);
-        }else
+        }else if(fechaIList.HasValue && fechaFList.HasValue)
         {
+            lista = rp.GetContratosPorRango(fechaIList.Value, fechaFList.Value);
+        }else if(diasId.HasValue){
+            lista = rp.GetContratosAVencer(fin.AddDays(diasId.Value));
+        }else{
             lista = rp.GetContratos();
         }
 

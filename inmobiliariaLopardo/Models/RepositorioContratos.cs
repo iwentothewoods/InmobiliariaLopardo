@@ -179,6 +179,119 @@ public class RepositorioContratos
         return contratos;
     }
 
+    public IList<Contrato> GetContratosAVencer(DateTime vencimiento)
+    {
+        List<Contrato> contratos = new List<Contrato>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = @"
+            SELECT
+                 c.*,
+                 i.Nombre AS NombreInquilino, i.Apellido AS ApellidoInquilino,
+                 im.Direccion AS DireccionInmueble,
+                 p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
+            FROM Contratos c
+            INNER JOIN inquilinos i ON c.InquilinoId = i.Id
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id
+            INNER JOIN propietarios p ON im.PropietarioId = p.Id
+            WHERE c.FechaFin <= @Vencimiento";
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@Vencimiento", vencimiento);
+
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        contratos.Add(new Contrato
+                        {
+                            Id = reader.GetInt32("Id"),
+                            InquilinoId = reader.GetInt32("InquilinoId"),
+                            InmuebleId = reader.GetInt32("InmuebleId"),
+                            FechaInicio = reader.GetDateTime("FechaInicio"),
+                            FechaFin = reader.GetDateTime("FechaFin"),
+                            Monto = reader.GetDecimal("Monto"),
+                            Inquilino = new Inquilino
+                            {
+                                Nombre = reader.GetString("NombreInquilino"),
+                                Apellido = reader.GetString("ApellidoInquilino")
+                            },
+                            Inmueble = new Inmueble
+                            {
+                                Direccion = reader.GetString("DireccionInmueble"),
+                                Propietario = new Propietario
+                                {
+                                    Nombre = reader.GetString("NombrePropietario"),
+                                    Apellido = reader.GetString("ApellidoPropietario")
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        return contratos;
+    }
+
+    public IList<Contrato> GetContratosPorRango(DateTime ini, DateTime fin)
+    {
+        List<Contrato> contratos = new List<Contrato>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = @"
+            SELECT
+                 c.*,
+                 i.Nombre AS NombreInquilino, i.Apellido AS ApellidoInquilino,
+                 im.Direccion AS DireccionInmueble,
+                 p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
+            FROM Contratos c
+            INNER JOIN inquilinos i ON c.InquilinoId = i.Id
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id
+            INNER JOIN propietarios p ON im.PropietarioId = p.Id
+            WHERE c.FechaInicio <= @fin AND c.FechaFin >= @ini";
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@Ini", ini);
+                command.Parameters.AddWithValue("@Fin", fin);
+
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        contratos.Add(new Contrato
+                        {
+                            Id = reader.GetInt32("Id"),
+                            InquilinoId = reader.GetInt32("InquilinoId"),
+                            InmuebleId = reader.GetInt32("InmuebleId"),
+                            FechaInicio = reader.GetDateTime("FechaInicio"),
+                            FechaFin = reader.GetDateTime("FechaFin"),
+                            Monto = reader.GetDecimal("Monto"),
+                            Inquilino = new Inquilino
+                            {
+                                Nombre = reader.GetString("NombreInquilino"),
+                                Apellido = reader.GetString("ApellidoInquilino")
+                            },
+                            Inmueble = new Inmueble
+                            {
+                                Direccion = reader.GetString("DireccionInmueble"),
+                                Propietario = new Propietario
+                                {
+                                    Nombre = reader.GetString("NombrePropietario"),
+                                    Apellido = reader.GetString("ApellidoPropietario")
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        return contratos;
+    }
+
     public IList<Contrato> GetPorInmuebles(int inmId)
     {
         List<Contrato> contratos = new List<Contrato>();
