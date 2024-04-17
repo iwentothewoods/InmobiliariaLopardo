@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2024 at 04:08 AM
+-- Generation Time: Apr 18, 2024 at 12:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -114,9 +114,9 @@ INSERT INTO `inquilinos` (`Id`, `Nombre`, `Apellido`, `Dni`, `Email`, `Telefono`
 
 CREATE TABLE `pagos` (
   `Id` int(11) NOT NULL,
-  `IdInquilino` int(11) NOT NULL,
+  `ContratoId` int(11) NOT NULL,
   `fechaPago` date NOT NULL,
-  `Importe` double NOT NULL
+  `importe` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -206,7 +206,7 @@ ALTER TABLE `inquilinos`
 --
 ALTER TABLE `pagos`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `IdInquilino` (`IdInquilino`);
+  ADD KEY `fk_pagos_contrato` (`ContratoId`);
 
 --
 -- Indexes for table `propietarios`
@@ -282,7 +282,7 @@ ALTER TABLE `inmuebles`
 -- Constraints for table `pagos`
 --
 ALTER TABLE `pagos`
-  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`IdInquilino`) REFERENCES `inquilinos` (`Id`);
+  ADD CONSTRAINT `fk_pagos_contrato` FOREIGN KEY (`ContratoId`) REFERENCES `contratos` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
