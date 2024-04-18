@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using inmobiliariaLopardo.Models;
 using MySqlX.XDevAPI.CRUD;
 using Microsoft.AspNetCore.Authorization;
+using inmobiliariaLopardo.ViewModels;
 
 namespace inmobiliariaLopardo.Controllers;
 
@@ -181,6 +182,54 @@ public class ContratosController : Controller
         }
     }
 
+    [Route("contratos/pagos/{id}")]
+
+    public ActionResult Pagos(int id)
+    {
+
+        RepositorioContratos repo = new RepositorioContratos();
+        var c = repo.GetContrato(id);
+        IList<Pago> lista;
+        lista = repo.GetPagos();
+
+        RepositorioInquilinos repInquilinos = new RepositorioInquilinos();
+        var inquilino = repInquilinos.GetInquilino(c.InquilinoId);
+        c.Inquilino = inquilino;
+
+        RepositorioInmuebles repInmuebles = new RepositorioInmuebles();
+        var inmueble = repInmuebles.GetInmueble(c.InmuebleId);
+        c.Inmueble = inmueble;
+
+        RepositorioPropietarios repPropietarios = new RepositorioPropietarios();
+        var propietario = repPropietarios.GetPropietario(c.Inmueble.PropietarioId);
+        c.Inmueble.Propietario = propietario;
+
+        
+        var vm = new ViewModelPagoContrato
+        {
+            contrato = c,
+            pago = null,
+            lpago = lista,
+        };
+        return View(vm);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult Pagos(Pago p)
+    {
+        try
+        {
+                RepositorioContratos repo = new RepositorioContratos();
+                repo.Pagar(p);
+                return RedirectToAction(nameof(Index));
+        }
+        catch
+        {
+            return View();
+        }
+    }
+
     [Route("contratos/detalles/{id}")]
     public ActionResult Detalles(int id)
     {
@@ -204,5 +253,8 @@ public class ContratosController : Controller
 
         return View(contrato);
     }
+
+
+    
 
 }

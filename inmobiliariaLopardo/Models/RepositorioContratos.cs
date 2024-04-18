@@ -455,4 +455,83 @@ public class RepositorioContratos
         }
     }
 
+    public Pago? GetPago()
+    {
+        Pago? pago = null;
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = $"SELECT {nameof(Pago.Id)}, {nameof(Pago.ContratoId)}, {nameof(Pago.FechaPago)}, {nameof(Pago.Importe)} FROM pagos";
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        pago = new Pago
+                        {
+                            Id = reader.GetInt32(nameof(Pago.Id)),
+                            ContratoId = reader.GetInt32(nameof(Pago.ContratoId)),
+                            FechaPago = reader.GetDateTime(nameof(Pago.FechaPago)),
+                            Importe = reader.GetDecimal(nameof(Pago.Importe))
+
+                        };
+                    }
+                }
+            }
+        }
+        return pago;
+    }
+
+    public IList<Pago> GetPagos()
+    {
+        var pagos = new List<Pago>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = $"SELECT {nameof(Pago.Id)}, {nameof(Pago.ContratoId)}, {nameof(Pago.FechaPago)}, {nameof(Pago.Importe)} FROM pagos";
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        pagos.Add(new Pago
+                        {
+                            Id = reader.GetInt32(nameof(Pago.Id)),
+                            ContratoId = reader.GetInt32(nameof(Pago.ContratoId)),
+                            FechaPago = reader.GetDateTime(nameof(Pago.FechaPago)),
+                            Importe = reader.GetDecimal(nameof(Pago.Importe))
+
+                        });
+                    }
+                }
+            }
+        }
+        return pagos;
+    }
+
+    public int Pagar(Pago pago)
+    {
+        int pagoId = -1;
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = @"INSERT INTO Pagos (ContratoId, FechaPago, Importe)
+                    VALUES (@ContratoId, @FechaPago, @Importe);
+                    SELECT LAST_INSERT_ID();";
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@ContratoId", pago.ContratoId);
+                command.Parameters.AddWithValue("@FechaPago", pago.FechaPago);
+                command.Parameters.AddWithValue("@Importe", pago.Importe);
+
+                connection.Open();
+                pagoId = Convert.ToInt32(command.ExecuteScalar());
+                connection.Close();
+            }
+        }
+        return pagoId;
+    }
 }

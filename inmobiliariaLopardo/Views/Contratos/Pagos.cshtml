@@ -1,0 +1,76 @@
+@model inmobiliariaLopardo.ViewModels.ViewModelPagoContrato
+@{
+    ViewData["Title"] = "Pagos";
+}
+
+<h4>Realizar un pago</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+     <form asp-action="Pagos">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="pago.ContratoId" class="control-label">Contrato</label>
+                <input type="number" asp-for="pago.ContratoId" class="form-control" />
+                <span asp-validation-for="pago.ContratoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="pago.FechaPago" class="control-label">Fecha del Pago</label>
+                <input type="date" asp-for="pago.FechaPago" class="form-control" />
+                <span asp-validation-for="pago.FechaPago" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="pago.Importe" class="control-label">Importe</label>
+                <input type="number" asp-for="pago.Importe" class="form-control" />
+                <span asp-validation-for="pago.Importe" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Pagar" class="btn btn-primary" /> <a asp-action="Index"
+                    class="btn btn-volver">Volver a contratos</a>
+            </div>
+     </form>
+    </div>
+</div>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.pago.Id)
+            </th>
+            <th>
+                Contrato
+            </th>
+            <th>
+                Fecha de Pago
+            </th>
+            <th>
+                Importe
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.lpago)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContratoId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaPago)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Importe)
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
