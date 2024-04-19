@@ -455,14 +455,15 @@ public class RepositorioContratos
         }
     }
 
-    public Pago? GetPago()
+    public Pago? GetPago(int id)
     {
         Pago? pago = null;
         using (var connection = new MySqlConnection(connectionString))
         {
-            var sql = $"SELECT {nameof(Pago.Id)}, {nameof(Pago.ContratoId)}, {nameof(Pago.FechaPago)}, {nameof(Pago.Importe)} FROM pagos";
+            var sql = $"SELECT {nameof(Pago.Id)}, {nameof(Pago.ContratoId)}, {nameof(Pago.FechaPago)}, {nameof(Pago.Importe)} FROM pagos WHERE {nameof(Contrato.Id)} = @id";
             using (var command = new MySqlCommand(sql, connection))
             {
+                command.Parameters.AddWithValue("@id", id);
                 connection.Open();
                 using (var reader = command.ExecuteReader())
                 {
@@ -488,7 +489,12 @@ public class RepositorioContratos
         var pagos = new List<Pago>();
         using (var connection = new MySqlConnection(connectionString))
         {
-            var sql = $"SELECT {nameof(Pago.Id)}, {nameof(Pago.ContratoId)}, {nameof(Pago.FechaPago)}, {nameof(Pago.Importe)} FROM pagos";
+            var sql = @"
+            SELECT 
+                  p.Id, p.ContratoId, p.FechaPago, p.Importe
+            FROM pagos p
+            INNER JOIN contratos c ON p.ContratoId = c.Id";
+            
             using (var command = new MySqlCommand(sql, connection))
             {
                 connection.Open();
