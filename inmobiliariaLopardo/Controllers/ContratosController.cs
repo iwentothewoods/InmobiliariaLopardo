@@ -187,28 +187,11 @@ public class ContratosController : Controller
     {
 
         RepositorioContratos repo = new RepositorioContratos();
-        var contrato = repo.GetContrato(id);
         IList<Pago> lista;
         lista = repo.GetPagos();
-        var p = new Pago();
-
-        RepositorioInquilinos repInquilinos = new RepositorioInquilinos();
-        var inquilino = repInquilinos.GetInquilino(contrato.InquilinoId);
-        contrato.Inquilino = inquilino;
-
-        RepositorioInmuebles repInmuebles = new RepositorioInmuebles();
-        var inmueble = repInmuebles.GetInmueble(contrato.InmuebleId);
-        contrato.Inmueble = inmueble;
-
-        RepositorioPropietarios repPropietarios = new RepositorioPropietarios();
-        var propietario = repPropietarios.GetPropietario(contrato.Inmueble.PropietarioId);
-        contrato.Inmueble.Propietario = propietario;
         
-
-        
-        var vm = new ViewModelPagoContrato(p)
+        var vm = new ViewModelPagoContrato
         {
-            pago = p,
             lpago = lista,
         };
         return View(vm);
