@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2024 at 05:15 AM
+-- Generation Time: Apr 18, 2024 at 12:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -73,7 +73,7 @@ INSERT INTO `inmuebles` (`Id`, `PropietarioId`, `Direccion`, `Uso`, `Tipo`, `Amb
 (9, 8, 'Mate Verde 67890, San Martin', 1, 2, 2, 40.73, -73.93, 220000.00, 1, 0),
 (10, 8, 'Pedrera 352, San Martín', 1, 2, 2, 40.73, -53.85, 560000.00, 1, 0),
 (11, 7, 'Los Madarinos 2598, Carpintería', 2, 4, 2, 34.05, -118.24, 200000.00, 1, 0),
-(12, 10, 'Avenida Sur 987, San Luis', 2, 3, 3, 48.85, 2.35, 280000.00, 1, 0);
+(12, 10, 'Avenida Sur 987, San Luis', 2, 3, 3, 48.85, 2.35, 280000.00, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -186,15 +186,14 @@ ALTER TABLE `contratos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `InquilinoId` (`InquilinoId`),
   ADD KEY `InmuebleId` (`InmuebleId`),
-  ADD KEY `FK_monto` (`Monto`);
+  ADD KEY `Monto` (`Monto`);
 
 --
 -- Indexes for table `inmuebles`
 --
 ALTER TABLE `inmuebles`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `PropietarioId` (`PropietarioId`),
-  ADD KEY `precio` (`precio`);
+  ADD KEY `PropietarioId` (`PropietarioId`);
 
 --
 -- Indexes for table `inquilinos`
@@ -207,8 +206,7 @@ ALTER TABLE `inquilinos`
 --
 ALTER TABLE `pagos`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `fk_pagos_contrato` (`ContratoId`),
-  ADD KEY `FK_importe` (`importe`);
+  ADD KEY `fk_pagos_contrato` (`ContratoId`);
 
 --
 -- Indexes for table `propietarios`
@@ -231,7 +229,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `inmuebles`
@@ -249,7 +247,7 @@ ALTER TABLE `inquilinos`
 -- AUTO_INCREMENT for table `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `propietarios`
@@ -271,7 +269,6 @@ ALTER TABLE `usuarios`
 -- Constraints for table `contratos`
 --
 ALTER TABLE `contratos`
-  ADD CONSTRAINT `FK_monto` FOREIGN KEY (`Monto`) REFERENCES `inmuebles` (`precio`),
   ADD CONSTRAINT `contratos_ibfk_1` FOREIGN KEY (`InquilinoId`) REFERENCES `inquilinos` (`Id`),
   ADD CONSTRAINT `contratos_ibfk_2` FOREIGN KEY (`InmuebleId`) REFERENCES `inmuebles` (`Id`);
 
@@ -285,7 +282,6 @@ ALTER TABLE `inmuebles`
 -- Constraints for table `pagos`
 --
 ALTER TABLE `pagos`
-  ADD CONSTRAINT `FK_importe` FOREIGN KEY (`importe`) REFERENCES `inmuebles` (`precio`),
   ADD CONSTRAINT `fk_pagos_contrato` FOREIGN KEY (`ContratoId`) REFERENCES `contratos` (`id`);
 COMMIT;
 
