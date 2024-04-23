@@ -27,7 +27,7 @@ public class RepositorioContratos
                 p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
             FROM contratos c
             INNER JOIN inquilinos i ON c.InquilinoId = i.Id
-            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND c.Monto = im.Precio
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND
             INNER JOIN propietarios p ON im.PropietarioId = p.Id";
 
             using (var command = new MySqlCommand(sql, connection))
@@ -80,7 +80,7 @@ public class RepositorioContratos
                  p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
             FROM Contratos c
             INNER JOIN inquilinos i ON c.InquilinoId = i.Id
-            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND c.Monto = im.Precio
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND
             INNER JOIN propietarios p ON im.PropietarioId = p.Id 
             WHERE c.FechaFin > @Fin";
 
@@ -136,7 +136,7 @@ public class RepositorioContratos
                  p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
             FROM Contratos c
             INNER JOIN inquilinos i ON c.InquilinoId = i.Id
-            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND c.Monto = im.Precio
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND
             INNER JOIN propietarios p ON im.PropietarioId = p.Id
             WHERE c.FechaFin <= @Fin";
 
@@ -192,7 +192,7 @@ public class RepositorioContratos
                  p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
             FROM Contratos c
             INNER JOIN inquilinos i ON c.InquilinoId = i.Id
-            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND c.Monto = im.Precio
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND
             INNER JOIN propietarios p ON im.PropietarioId = p.Id
             WHERE c.FechaFin <= @Vencimiento";
 
@@ -248,7 +248,7 @@ public class RepositorioContratos
                  p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
             FROM Contratos c
             INNER JOIN inquilinos i ON c.InquilinoId = i.Id
-            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND c.Monto = im.Precio
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND
             INNER JOIN propietarios p ON im.PropietarioId = p.Id
             WHERE c.FechaInicio <= @fin AND c.FechaFin >= @ini";
 
@@ -305,7 +305,7 @@ public class RepositorioContratos
                  p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
             FROM Contratos c
             INNER JOIN inquilinos i ON c.InquilinoId = i.Id
-            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND c.Monto = im.Precio
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id
             INNER JOIN propietarios p ON im.PropietarioId = p.Id
             WHERE c.InmuebleId = @InmId";
 
@@ -493,8 +493,7 @@ public class RepositorioContratos
             SELECT 
                   p.Id, p.ContratoId, p.FechaPago, p.Importe
             FROM pagos p
-            INNER JOIN contratos c ON p.ContratoId = c.Id
-            INNER JION inmuebles im ON p.Importe = im.Precio";
+            INNER JOIN contratos c ON p.ContratoId = c.Id";
 
             using (var command = new MySqlCommand(sql, connection))
             {
