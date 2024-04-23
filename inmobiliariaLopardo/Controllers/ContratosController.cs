@@ -136,6 +136,7 @@ public class ContratosController : Controller
             return View();
         }
     }
+
     [Authorize(Roles = "Administrador")]
     public ActionResult Eliminar(int id)
     {
@@ -182,36 +183,36 @@ public class ContratosController : Controller
         }
     }
 
-
-    public ActionResult Pagos(int id)
-    {
-
-        RepositorioContratos repo = new RepositorioContratos();
-        IList<Pago> lista;
-        lista = repo.GetPagos();
-        
-        var vm = new ViewModelPagoContrato
+    /*
+        public ActionResult Pagos(int id)
         {
-            lpago = lista,
-        };
-        return View(vm);
-    }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Pagos(Pago p)
-    {
-        try
-        {
-                RepositorioContratos repo = new RepositorioContratos();
-                repo.Pagar(p);
-                return RedirectToAction(nameof(Pagos));
+            RepositorioContratos repo = new RepositorioContratos();
+            IList<Pago> lista;
+            lista = repo.GetPagos();
+
+            var vm = new ViewModelPagoContrato
+            {
+                lpago = lista,
+            };
+            return View(vm);
         }
-        catch
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Pagos(Pago p)
         {
-            return View();
-        }
-    }
+            try
+            {
+                    RepositorioContratos repo = new RepositorioContratos();
+                    repo.Pagar(p);
+                    return RedirectToAction(nameof(Pagos));
+            }
+            catch
+            {
+                return View();
+            }
+        }*/
 
     [Route("contratos/detalles/{id}")]
     public ActionResult Detalles(int id)
@@ -238,6 +239,68 @@ public class ContratosController : Controller
     }
 
 
-    
+    /******* PAGOS  *********/
+
+    /*
+        public ActionResult Pagos(int id)
+        {
+
+            RepositorioContratos repo = new RepositorioContratos();
+            IList<Pago> lista;
+            lista = repo.GetPagos();
+
+            var vm = new ViewModelPagoContrato
+            {
+                lpago = lista,
+            };
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Pagos(Pago p)
+        {
+            try
+            {
+                RepositorioContratos repo = new RepositorioContratos();
+                repo.Pagar(p);
+                return RedirectToAction(nameof(Pagos));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    */
+
+
+[HttpGet]
+public ActionResult Pagos(int id)
+{
+    ViewBag.ContratoId = id;
+    var repo = new RepositorioContratos();
+    var pagos = repo.GetPagosPorContratoId(id);
+    return View(pagos);
+}
+
+[HttpPost]
+public ActionResult Pagos(Pago nuevoPago)
+{
+    var repo = new RepositorioContratos();
+    int pagoId = repo.Pagar(nuevoPago);
+    if (pagoId > 0)
+    {
+        return RedirectToAction("Pagos", new { id = nuevoPago.ContratoId });
+    }
+    else
+    {
+        ModelState.AddModelError("", "Error al agregar el pago.");
+        ViewBag.ContratoId = nuevoPago.ContratoId;
+        var pagos = repo.GetPagosPorContratoId(nuevoPago.ContratoId);
+        return View(pagos);
+    }
+}
+
+
 
 }

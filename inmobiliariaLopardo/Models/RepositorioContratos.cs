@@ -423,12 +423,12 @@ public class RepositorioContratos
                 connection.Open();
                 int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();
-                
+
                 return rowsAffected > 0;
             }
         }
 
-        
+
     }
 
     public bool Modificacion(Contrato i)
@@ -494,7 +494,7 @@ public class RepositorioContratos
                   p.Id, p.ContratoId, p.FechaPago, p.Importe
             FROM pagos p
             INNER JOIN contratos c ON p.ContratoId = c.Id";
-            
+
             using (var command = new MySqlCommand(sql, connection))
             {
                 connection.Open();
@@ -540,4 +540,38 @@ public class RepositorioContratos
         }
         return pagoId;
     }
+
+    public IList<Pago> GetPagosPorContratoId(int contratoId)
+    {
+        List<Pago> pagos = new List<Pago>();
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = @"
+            SELECT Id, ContratoId, FechaPago, Importe
+            FROM Pagos
+            WHERE ContratoId = @ContratoId";
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@ContratoId", contratoId);
+
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        pagos.Add(new Pago
+                        {
+                            Id = reader.GetInt32("Id"),
+                            ContratoId = reader.GetInt32("ContratoId"),
+                            FechaPago = reader.GetDateTime("FechaPago"),
+                            Importe = reader.GetDecimal("Importe")
+                        });
+                    }
+                }
+            }
+        }
+        return pagos;
+    }
+
 }

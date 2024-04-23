@@ -25,5 +25,6 @@ namespace inmobiliariaLopardo.Models
             FechaPago = fechaPago;
             Importe = importe;
         }
+        
     }
 }
