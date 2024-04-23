@@ -71,7 +71,14 @@
                                     <li>
                                         <hr class="dropdown-divider" />
                                     </li>
-                                    <li><a class="dropdown-item" href="/Usuarios/Logout">Salir</a></li>
+                                    <li><a asp-controller="Usuarios" asp-action="CambiarAvatar"
+                                            class="dropdown-item">Cambiar Avatar</a></li>
+                                    <li><a asp-controller="Usuarios" asp-action="CambiarClave"
+                                            class="dropdown-item">Cambiar Clave</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider" />
+                                    </li>
+                                    <li><a href="/Usuarios/Logout" class="dropdown-item">Salir</a></li>
                                 </ul>
                             </li>
                         }

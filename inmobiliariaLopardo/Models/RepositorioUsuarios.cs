@@ -236,4 +236,44 @@ public class RepositorioUsuarios
     }
 
 
+    public void CambiarClave(Usuario usuario, string nuevaClave)
+    {
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            var sql = $"UPDATE Usuarios SET Clave = @NuevaClave WHERE Id = @Id";
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@NuevaClave", nuevaClave);
+                command.Parameters.AddWithValue("@Id", usuario.Id);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
+    public void CambiarAvatar(Usuario usuario, string nuevoAvatar)
+    {
+        using (var connection = new MySqlConnection(connectionString))
+        {
+
+            var sql = $"UPDATE Usuarios SET Avatar = @NuevoAvatar WHERE Id = @Id";
+
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+
+                command.Parameters.AddWithValue("@NuevoAvatar", nuevoAvatar);
+                command.Parameters.AddWithValue("@Id", usuario.Id);
+
+
+                connection.Open();
+
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
+
+
 }

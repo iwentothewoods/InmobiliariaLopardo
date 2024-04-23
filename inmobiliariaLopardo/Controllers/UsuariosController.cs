@@ -26,9 +26,9 @@ public class UsuariosController : Controller
 {
 
     private readonly IConfiguration configuration;
-
     private readonly IWebHostEnvironment environment;
     private readonly ILogger<UsuariosController> _logger;
+
 
     public UsuariosController(ILogger<UsuariosController> logger, IConfiguration configuration, IWebHostEnvironment environment)
     {
@@ -277,5 +277,111 @@ public class UsuariosController : Controller
         );
         return RedirectToAction("Index", "Home");
     }
+
+    /* CAMBIAR AVATAR Y CONTRASEÑA */
+
+    // GET: Usuarios/CambiarClave
+    public IActionResult CambiarClave()
+    {
+        return View();
+    }
+
+
+    // POST: Usuarios/CambiarClave
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    // [Route("Usuarios/CambiarClave")]
+    public IActionResult CambiarClave(string clave)
+    {
+        try
+        {
+            // Obtener el usuario autenticado
+            string emailUsuario = User.Identity.Name;
+            RepositorioUsuarios repo = new RepositorioUsuarios();
+            Usuario usuarioDB = repo.ObtenerPorEmail(emailUsuario);
+
+            if (usuarioDB == null)
+            {
+                return NotFound();
+            }
+
+            // Hash de la nueva contraseña
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                            password: clave,
+                            salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
+                            prf: KeyDerivationPrf.HMACSHA1,
+                            iterationCount: 1000,
+                            numBytesRequested: 256 / 8));
+
+            // Cambiar la clave del usuario
+            repo.CambiarClave(usuarioDB, hashed);
+
+            return RedirectToAction("Index", "Usuarios");
+        }
+        catch (Exception ex)
+        {
+            ViewData["ErrorMessage"] = "Error al cambiar la clave: " + ex.Message;
+            return View();
+        }
+    }
+
+
+    // GET: Usuarios/CambiarAvatar
+    public IActionResult CambiarAvatar()
+    {
+        return View();
+    }
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult CambiarAvatar(Usuario usuario)
+    {
+        try
+        {
+            RepositorioUsuarios repo = new RepositorioUsuarios();
+            var usuarioAutenticado = repo.ObtenerPorEmail(User.Identity.Name);
+
+            if (usuarioAutenticado == null)
+            {
+                TempData["Error"] = "No se pudo encontrar el usuario autenticado";
+                return RedirectToAction("Perfil");
+            }
+
+            if (usuario.AvatarFile != null && usuario.AvatarFile.Length > 0)
+            {
+                string wwwPath = environment.WebRootPath;
+                string path = Path.Combine(wwwPath, "Uploads");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                string fileName = "avatar_" + Guid.NewGuid().ToString() + Path.GetExtension(usuario.AvatarFile.FileName);
+                string pathCompleto = Path.Combine(path, fileName);
+                usuario.Avatar = Path.Combine("/Uploads", fileName);
+
+                using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                {
+                    usuario.AvatarFile.CopyTo(stream);
+                }
+
+                repo.CambiarAvatar(usuarioAutenticado, usuario.Avatar);
+
+                TempData["Mensaje"] = "Avatar cambiado correctamente";
+            }
+            else
+            {
+                TempData["Mensaje"] = "No se seleccionó ningún archivo";
+            }
+
+            return RedirectToAction("Perfil");
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = "Error al cambiar el avatar: " + ex.Message;
+            return RedirectToAction("Perfil");
+        }
+    }
+
 
 }

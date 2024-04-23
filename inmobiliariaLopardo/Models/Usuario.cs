@@ -23,11 +23,12 @@ public class Usuario
     [Required, DataType(DataType.Password)]
     public string? Clave { get; set; }
     public string? Avatar { get; set; }
-    
-    public IFormFile? AvatarFile { get; set; }
-     public int Rol { get; set; }
 
-     //Si es mayor a cero, devuelve el toString del enum, si no, lo devuelve vacío
+    public IFormFile? AvatarFile { get; set; }
+    
+    public int Rol { get; set; }
+
+    //Si es mayor a cero, devuelve el toString del enum, si no, lo devuelve vacío
     public string RolNombre => Rol > 0 ? ((Roles)Rol).ToString() : "";
 
     //Devuelve el int (clave numérica del enum), junto con el string (valor del mismo)
