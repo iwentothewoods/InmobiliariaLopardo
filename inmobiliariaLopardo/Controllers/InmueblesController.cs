@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace inmobiliariaLopardo.Controllers;
 
+[Authorize]
 public class InmueblesController : Controller
 {
     private readonly ILogger<InmueblesController> _logger;

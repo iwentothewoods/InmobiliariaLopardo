@@ -22,19 +22,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 //Autorización para manejar permisos
 //Se puede añadir uno para empleados, superadmin, etc
 builder.Services.AddAuthorization(options =>
-    {
-        options.AddPolicy("Administrador", policy => policy.RequireClaim(ClaimTypes.Role, "Administrador"));
-        options.AddPolicy("Empleado", policy => policy.RequireClaim(ClaimTypes.Role, "Empleado"));
-    });
+{
+    options.AddPolicy("Administrador", policy => policy.RequireClaim(ClaimTypes.Role, "Administrador"));
+    options.AddPolicy("Empleado", policy => policy.RequireClaim(ClaimTypes.Role, "Empleado"));
+});
 
-builder.Services.AddAuthorization(options =>
+
+/*builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Administrador", policy =>
         policy.RequireRole("Administrador"));
 
     options.AddPolicy("Empleado", policy =>
         policy.RequireRole("Empleado"));
-});
+});*/
 
 var app = builder.Build();
 
@@ -50,8 +51,6 @@ if (!app.Environment.IsDevelopment())
 app.Use(async (context, next) =>
 {
     await next();
-
-    // Si no se encuentra una ruta válida
     if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
     {
         // Redirigimos a la página de error 404 (la misma que niega entrada al empleado a Usuarios)

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace inmobiliariaLopardo.Controllers;
 
-
+[Authorize]
 public class PropietariosController : Controller
 {
 

@@ -21,7 +21,7 @@ using MySql.Data.MySqlClient;
 
 namespace inmobiliariaLopardo.Controllers;
 
-
+[Authorize]
 public class UsuariosController : Controller
 {
 

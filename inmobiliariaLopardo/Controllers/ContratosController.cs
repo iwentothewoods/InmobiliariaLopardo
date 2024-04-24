@@ -7,6 +7,7 @@ using inmobiliariaLopardo.ViewModels;
 
 namespace inmobiliariaLopardo.Controllers;
 
+[Authorize]
 public class ContratosController : Controller
 {
     private readonly ILogger<ContratosController> _logger;

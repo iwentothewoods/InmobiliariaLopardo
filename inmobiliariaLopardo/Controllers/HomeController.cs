@@ -4,6 +4,7 @@ using inmobiliariaLopardo.Models;
 
 namespace inmobiliariaLopardo.Controllers;
 
+
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
