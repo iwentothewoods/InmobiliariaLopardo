@@ -80,7 +80,7 @@ public class RepositorioContratos
                  p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
             FROM Contratos c
             INNER JOIN inquilinos i ON c.InquilinoId = i.Id
-            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id
             INNER JOIN propietarios p ON im.PropietarioId = p.Id 
             WHERE c.FechaFin > @Fin";
 
@@ -136,7 +136,7 @@ public class RepositorioContratos
                  p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
             FROM Contratos c
             INNER JOIN inquilinos i ON c.InquilinoId = i.Id
-            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id
             INNER JOIN propietarios p ON im.PropietarioId = p.Id
             WHERE c.FechaFin <= @Fin";
 
@@ -192,7 +192,7 @@ public class RepositorioContratos
                  p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
             FROM Contratos c
             INNER JOIN inquilinos i ON c.InquilinoId = i.Id
-            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id 
             INNER JOIN propietarios p ON im.PropietarioId = p.Id
             WHERE c.FechaFin <= @Vencimiento";
 
@@ -248,7 +248,7 @@ public class RepositorioContratos
                  p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario
             FROM Contratos c
             INNER JOIN inquilinos i ON c.InquilinoId = i.Id
-            INNER JOIN inmuebles im ON c.InmuebleId = im.Id AND
+            INNER JOIN inmuebles im ON c.InmuebleId = im.Id
             INNER JOIN propietarios p ON im.PropietarioId = p.Id
             WHERE c.FechaInicio <= @fin AND c.FechaFin >= @ini";
 

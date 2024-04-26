@@ -8,7 +8,7 @@
             <img src="~/img/10.png" class="img-fluid d-block mx-auto" alt="Imagen 1">
         </div>
         <div class="col-md-12 p-0">
-            <img src="~/img/12.png" class="img-fluid d-block mx-auto" alt="Imagen 2">
+            <img src="~/img/imgdos.png" class="img-fluid d-block mx-auto" alt="Imagen 2">
         </div>
     </div>
 </div>
@@ -52,7 +52,7 @@
                 <img src="~/img/contrato.png" class="card-img-top" alt="Imagen de la tarjeta">
                 <div class="card-body">
                     <h5 class="card-title">Contratos</h5>
-                    <p class="card-text">En esta categoría, podés acceder a todo el contenido de contratos. Crear, editar y eliminar los mismos. Próximamente también podrás cancelarlos!</p>
+                    <p class="card-text">En esta categoría, podés acceder a todo el contenido de contratos. Crear, editar y eliminar los mismos.</p>
                     <a href="/Contratos" class="btn btn-primary">Ir a la vista</a>
                 </div>
             </div>
@@ -62,9 +62,9 @@
                 <img src="~/img/pago.png" class="card-img-top" alt="Imagen de la tarjeta">
                 <div class="card-body">
                     <h5 class="card-title">Pagos</h5>
-                    <p class="card-text">Próximamente también podrás acceder a la vista de pagos! *Trabajo en progreso*
+                    <p class="card-text">Ya se pueden registrar pagos directamente desde la sección de contratos.
                     </p>
-                    <a href="/" class="btn btn-primary">Ir a la vista</a>
+                    <a href="/Contratos" class="btn btn-primary">Ir a la vista</a>
                 </div>
             </div>
         </div>
@@ -72,10 +72,10 @@
             <div class="card">
                 <img src="~/img/login.png" class="card-img-top" alt="Imagen de la tarjeta">
                 <div class="card-body">
-                    <h5 class="card-title">Inicio de Sesión</h5>
-                    <p class="card-text">Próximamente también podrás registrarte e iniciar sesión! *Trabajo en progreso*
+                    <h5 class="card-title">Usuarios</h5>
+                    <p class="card-text"> Los administradores de la página ya pueden crear, editar y eliminar usuarios.
                     </p>
-                    <a href="/" class="btn btn-primary">Ir a la vista</a>
+                    @if(User.IsInRole("Administrador")){<a href="/Usuarios" class="btn btn-primary">Ir a la vista</a>}
                 </div>
             </div>
         </div>
