@@ -200,6 +200,7 @@ public class UsuariosController : Controller
                 var e = repositorio.ObtenerPorEmail(usuario.Email);
                 if (e == null || e.Clave != hashed)
                 {
+                    ViewBag.ErrorMessage = "El email o la clave no son correctos";
                     ModelState.AddModelError("", "El email o la clave no son correctos");
                     TempData["returnUrl"] = returnUrl;
                     return View();
