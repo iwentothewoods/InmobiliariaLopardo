@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2024 at 12:58 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Apr 26, 2024 at 03:36 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,6 +37,15 @@ CREATE TABLE `contratos` (
   `Monto` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `contratos`
+--
+
+INSERT INTO `contratos` (`id`, `InquilinoId`, `InmuebleId`, `FechaInicio`, `FechaFin`, `FechaTerminacion`, `Monto`) VALUES
+(39, 1, 1, '2024-04-04', '2024-05-04', NULL, 150000.00),
+(40, 2, 2, '2024-04-30', '2024-07-31', NULL, 200000.00),
+(41, 3, 3, '2024-06-08', '2024-08-31', NULL, 300000.00);
+
 -- --------------------------------------------------------
 
 --
@@ -63,16 +72,16 @@ CREATE TABLE `inmuebles` (
 
 INSERT INTO `inmuebles` (`Id`, `PropietarioId`, `Direccion`, `Uso`, `Tipo`, `Ambientes`, `Latitud`, `Longitud`, `precio`, `Activo`, `Disponible`) VALUES
 (1, 1, 'Los Teros 5834, San Luis', 1, 2, 3, 40.71, -74.3, 150000.00, 1, 0),
-(2, 2, 'Avenida Norte 456, Merlo', 2, 1, 2, 35.68, 139.69, 200000.00, 0, 0),
+(2, 2, 'Avenida Norte 456, Merlo', 2, 1, 2, 35.68, 139.69, 200000.00, 1, 0),
 (3, 3, 'Calle Pedrada 789, CABA', 2, 3, 4, 51.5, -0.12, 300000.00, 1, 0),
-(4, 9, 'Paseo Marítimo 101, Córdoba', 1, 2, 1, -33.86, 151.2, 100000.00, 1, 0),
-(5, 4, 'Av Principal 789, Celestina', 2, 1, 3, 45.42, -75.69, 250000.00, 1, 0),
-(6, 5, 'Corazonada 4456, San Miguel', 2, 3, 2, -23.55, -46.63, 180000.00, 1, 0),
-(7, 6, 'Avenida 12345, Ciudad', 1, 4, 4, 52.52, 13.405, 350000.00, 1, 0),
+(4, 9, 'Paseo Marítimo 101, Córdoba', 1, 2, 1, -33.86, 151.2, 100000.00, 1, 1),
+(5, 4, 'Av Principal 789, Celestina', 2, 1, 3, 45.42, -75.69, 250000.00, 1, 1),
+(6, 5, 'Corazonada 4456, San Miguel', 2, 3, 2, -23.55, -46.63, 180000.00, 1, 1),
+(7, 6, 'Avenida 12345, Ciudad', 1, 4, 4, 52.52, 13.405, 350000.00, 1, 1),
 (8, 2, 'La Patrona 67890, Orones', 1, 2, 2, 40.73, -73.93, 160000.00, 0, 0),
-(9, 8, 'Mate Verde 67890, San Martin', 1, 2, 2, 40.73, -73.93, 220000.00, 1, 0),
-(10, 8, 'Pedrera 352, San Martín', 1, 2, 2, 40.73, -53.85, 560000.00, 1, 0),
-(11, 7, 'Los Madarinos 2598, Carpintería', 2, 4, 2, 34.05, -118.24, 200000.00, 1, 0),
+(9, 8, 'Mate Verde 67890, San Martin', 1, 2, 2, 40.73, -73.93, 220000.00, 1, 1),
+(10, 8, 'Pedrera 352, San Martín', 1, 2, 2, 40.73, -53.85, 560000.00, 1, 1),
+(11, 7, 'Los Madarinos 2598, Carpintería', 2, 4, 2, 34.05, -118.24, 200000.00, 1, 1),
 (12, 10, 'Avenida Sur 987, San Luis', 2, 3, 3, 48.85, 2.35, 280000.00, 1, 1);
 
 -- --------------------------------------------------------
@@ -118,6 +127,15 @@ CREATE TABLE `pagos` (
   `fechaPago` date NOT NULL,
   `importe` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pagos`
+--
+
+INSERT INTO `pagos` (`Id`, `ContratoId`, `fechaPago`, `importe`) VALUES
+(19, 39, '2024-04-06', 150000.00),
+(20, 40, '2024-04-29', 200000.00),
+(21, 40, '2024-05-29', 200000.00);
 
 -- --------------------------------------------------------
 
@@ -171,7 +189,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`Id`, `Nombre`, `Apellido`, `Email`, `Clave`, `Avatar`, `Rol`) VALUES
-(13, 'Luna', 'Lopardo', 'luna.lopardo@gmail.com', 'ZUL9uS2RlCEgeEI1bjz4ZBwruXpQ+A4Z5HIPQa7dTZ0=', '/Uploads\\avatar_3c90d522-eba4-4535-94ff-88273de1ea5f.png', 1),
+(13, 'Luna', 'Lopardo', 'luna.lopardo@gmail.com', 'ZUL9uS2RlCEgeEI1bjz4ZBwruXpQ+A4Z5HIPQa7dTZ0=', '/Uploads\\avatar_e12bef40-8e14-4f55-82fe-440440a0bf4b.png', 1),
 (15, 'admin', 'admin', 'admin@gmail.com', 'jPX1uaYX24ssdEttdOrpqpsaU7LpXs7rh3jmUcyCRA8=', '/Uploads\\avatar_42fd32d2-4998-4c0b-a015-ac4ade62991d.jpg', 1),
 (16, 'Test', 'Sinfoto', 'testsinfoto@gmail.com', 'r44dtcF6tS9a1Z6QMRi+M8OeMMPq0a2Hf6Dn8dx4bAw=', '', 2);
 
@@ -229,7 +247,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `inmuebles`
@@ -241,25 +259,25 @@ ALTER TABLE `inmuebles`
 -- AUTO_INCREMENT for table `inquilinos`
 --
 ALTER TABLE `inquilinos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `propietarios`
 --
 ALTER TABLE `propietarios`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables
