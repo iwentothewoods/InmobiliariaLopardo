@@ -275,44 +275,45 @@ public class ContratosController : Controller
     */
 
 
-[HttpGet]
-public ActionResult Pagos(int id)
-{
-    ViewBag.ContratoId = id;
-    var repo = new RepositorioContratos();
-    var pagos = repo.GetPagosPorContratoId(id);
-
-    return View(pagos);
-}
-
-[HttpPost]
-public ActionResult Pagos(Pago nuevoPago)
-{
-    var repo = new RepositorioContratos();
-
-    foreach (var item in repo.GetPagosPorContratoId(nuevoPago.ContratoId))
+    [HttpGet]
+    public ActionResult Pagos(int id)
     {
-        if(DateTime.Compare(item.FechaPago.AddDays(30), nuevoPago.FechaPago) > 0){
-            ModelState.AddModelError("", "El pago en esa fecha ya se ha realizado");
+        ViewBag.ContratoId = id;
+        var repo = new RepositorioContratos();
+        var pagos = repo.GetPagosPorContratoId(id);
+
+        return View(pagos);
+    }
+
+    [HttpPost]
+    public ActionResult Pagos(Pago nuevoPago)
+    {
+        var repo = new RepositorioContratos();
+
+        foreach (var item in repo.GetPagosPorContratoId(nuevoPago.ContratoId))
+        {
+            if (DateTime.Compare(item.FechaPago.AddDays(30), nuevoPago.FechaPago) > 0)
+            {
+                ModelState.AddModelError("", "El pago en esa fecha ya se ha realizado");
+                ViewBag.ContratoId = nuevoPago.ContratoId;
+                var pagos = repo.GetPagosPorContratoId(nuevoPago.ContratoId);
+                return View(pagos);
+            }
+        }
+
+        int pagoId = repo.Pagar(nuevoPago);
+        if (pagoId > 0)
+        {
+            return RedirectToAction("Pagos", new { id = nuevoPago.ContratoId });
+        }
+        else
+        {
+            ModelState.AddModelError("", "Error al agregar el pago.");
             ViewBag.ContratoId = nuevoPago.ContratoId;
             var pagos = repo.GetPagosPorContratoId(nuevoPago.ContratoId);
             return View(pagos);
         }
     }
-
-    int pagoId = repo.Pagar(nuevoPago);
-    if (pagoId > 0)
-    {
-        return RedirectToAction("Pagos", new { id = nuevoPago.ContratoId });
-    }
-    else
-    {
-        ModelState.AddModelError("", "Error al agregar el pago.");
-        ViewBag.ContratoId = nuevoPago.ContratoId;
-        var pagos = repo.GetPagosPorContratoId(nuevoPago.ContratoId);
-        return View(pagos);
-    }
-}
 
 
 

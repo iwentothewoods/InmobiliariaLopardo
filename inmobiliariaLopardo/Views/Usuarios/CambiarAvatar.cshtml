@@ -8,6 +8,13 @@
         <input asp-for="AvatarFile" type="file" class="form-control-file" />
         <span asp-validation-for="AvatarFile" class="text-danger"></span>
     </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="eliminarAvatar" name="eliminarAvatar" value="true">
+        <label class="form-check-label" for="eliminarAvatar">
+            Eliminar avatar actual
+        </label>
+    </div>
+
     <div class="form-group">
         <input type="submit" value="Guardar Avatar" class="btn btn-primary" />
     </div>

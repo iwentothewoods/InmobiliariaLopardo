@@ -28,14 +28,14 @@ builder.Services.AddAuthorization(options =>
 });
 
 
-/*builder.Services.AddAuthorization(options =>
+builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Administrador", policy =>
         policy.RequireRole("Administrador"));
 
     options.AddPolicy("Empleado", policy =>
         policy.RequireRole("Empleado"));
-});*/
+});
 
 var app = builder.Build();
 

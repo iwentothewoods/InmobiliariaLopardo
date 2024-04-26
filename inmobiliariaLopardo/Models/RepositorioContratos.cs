@@ -379,6 +379,33 @@ public class RepositorioContratos
         }
         return Contrato;
     }
+    /*
+        public int Alta(Contrato contrato)
+        {
+            int contratoId = -1;
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                var sql = @"INSERT INTO Contratos (InquilinoId, InmuebleId, FechaInicio, FechaFin, Monto)
+                        VALUES (@InquilinoId, @InmuebleId, @FechaInicio, @FechaFin, @Monto);
+                        SELECT LAST_INSERT_ID();";
+
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("@InquilinoId", contrato.InquilinoId);
+                    command.Parameters.AddWithValue("@InmuebleId", contrato.InmuebleId);
+                    command.Parameters.AddWithValue("@FechaInicio", contrato.FechaInicio);
+                    command.Parameters.AddWithValue("@FechaFin", contrato.FechaFin);
+                    command.Parameters.AddWithValue("@Monto", contrato.Monto);
+
+                    connection.Open();
+                    contratoId = Convert.ToInt32(command.ExecuteScalar());
+                    connection.Close();
+                }
+            }
+            return contratoId;
+        }*/
+
 
     public int Alta(Contrato contrato)
     {
@@ -386,7 +413,7 @@ public class RepositorioContratos
         using (var connection = new MySqlConnection(connectionString))
         {
             var sql = @"INSERT INTO Contratos (InquilinoId, InmuebleId, FechaInicio, FechaFin, Monto)
-                    VALUES (@InquilinoId, @InmuebleId, @FechaInicio, @FechaFin, @Monto);
+                    VALUES (@InquilinoId, @InmuebleId, @FechaInicio, @FechaFin, (SELECT Precio FROM Inmuebles WHERE Id = @InmuebleId));
                     SELECT LAST_INSERT_ID();";
 
             using (var command = new MySqlCommand(sql, connection))
@@ -396,7 +423,6 @@ public class RepositorioContratos
                 command.Parameters.AddWithValue("@InmuebleId", contrato.InmuebleId);
                 command.Parameters.AddWithValue("@FechaInicio", contrato.FechaInicio);
                 command.Parameters.AddWithValue("@FechaFin", contrato.FechaFin);
-                command.Parameters.AddWithValue("@Monto", contrato.Monto);
 
                 connection.Open();
                 contratoId = Convert.ToInt32(command.ExecuteScalar());
@@ -405,8 +431,6 @@ public class RepositorioContratos
         }
         return contratoId;
     }
-
-
 
     public bool Baja(Contrato b)
     {

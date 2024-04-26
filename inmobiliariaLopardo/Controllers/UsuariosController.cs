@@ -46,19 +46,18 @@ public class UsuariosController : Controller
     }
 
     // GET: Usuarios/Crear
-    [Authorize(Roles = "Administrador")]
+    [Authorize("Administrador")]
     public ActionResult Crear()
     {
         return View();
     }
 
     // POST: Usuarios/Crear
-    [Authorize(Roles = "Administrador")]
+    [Authorize("Administrador")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Crear(Usuario u)
     {
-        RepositorioUsuarios ru = new RepositorioUsuarios();
         if (!ModelState.IsValid)
             return View(u);
 
@@ -72,14 +71,6 @@ public class UsuariosController : Controller
                             numBytesRequested: 256 / 8));
             u.Clave = hashed;
 
-            var res = ru.Alta(u);
-            if (res == -2)
-            {
-                //ModelState.AddModelError("", "Ya existe una cuenta registrada con ese email.");
-                //TempData["AlertMessage"] = "Ya existe una cuenta registrada con ese email.";
-                // TempData["AlertType"] = "error";
-                return RedirectToAction("Crear");
-            }
 
             if (u.AvatarFile != null)
             {
@@ -98,28 +89,19 @@ public class UsuariosController : Controller
                     u.AvatarFile.CopyTo(stream);
                 }
             }
+
             RepositorioUsuarios repo = new RepositorioUsuarios();
             repo.Alta(u);
+
             return RedirectToAction(nameof(Index));
         }
-        catch (MySqlException ex)
+        catch (Exception ex)
         {
-            if (ex.Number == 1062) // Código de error para clave duplicada > Mysql
-            {
-                ModelState.AddModelError("", "Ya existe una cuenta registrada con ese email.");
-                TempData["AlertMessage"] = "Ya existe una cuenta registrada con ese email.";
-                TempData["AlertType"] = "error";
-                return View(u);
-            }
-            else
-            {
-                ModelState.AddModelError("", "Error al guardar el usuario: " + ex.Message);
-                ViewBag.Roles = Usuario.ObtenerRoles();
-                return View(u);
-            }
+            ModelState.AddModelError("", "Error al guardar el usuario: " + ex.Message);
+            ViewBag.Roles = Usuario.ObtenerRoles();
+            return View(u);
         }
     }
-
 
     // GET: Usuarios/Edit/5
     [Authorize(Roles = "Administrador")]
@@ -286,7 +268,6 @@ public class UsuariosController : Controller
         return View();
     }
 
-
     // POST: Usuarios/CambiarClave
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -326,62 +307,70 @@ public class UsuariosController : Controller
     }
 
 
-    // GET: Usuarios/CambiarAvatar
-    public IActionResult CambiarAvatar()
-    {
-        return View();
-    }
+// Metodo GET para mostrar la vista
+[HttpGet]
+public IActionResult CambiarAvatar()
+{
+    return View();
+}
 
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult CambiarAvatar(Usuario usuario)
+// Metodo POST para modificar o eliminar el avatar
+[HttpPost]
+[ValidateAntiForgeryToken]
+public IActionResult CambiarAvatar(Usuario usuario, bool eliminarAvatar)
+{
+    try
     {
-        try
+        Console.WriteLine("Valor de eliminarAvatar: " + eliminarAvatar);
+        RepositorioUsuarios repo = new RepositorioUsuarios();
+        var usuarioAutenticado = repo.ObtenerPorEmail(User.Identity.Name);
+
+        if (usuarioAutenticado == null)
         {
-            RepositorioUsuarios repo = new RepositorioUsuarios();
-            var usuarioAutenticado = repo.ObtenerPorEmail(User.Identity.Name);
-
-            if (usuarioAutenticado == null)
-            {
-                TempData["Error"] = "No se pudo encontrar el usuario autenticado";
-                return RedirectToAction("Perfil");
-            }
-
-            if (usuario.AvatarFile != null && usuario.AvatarFile.Length > 0)
-            {
-                string wwwPath = environment.WebRootPath;
-                string path = Path.Combine(wwwPath, "Uploads");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                string fileName = "avatar_" + Guid.NewGuid().ToString() + Path.GetExtension(usuario.AvatarFile.FileName);
-                string pathCompleto = Path.Combine(path, fileName);
-                usuario.Avatar = Path.Combine("/Uploads", fileName);
-
-                using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
-                {
-                    usuario.AvatarFile.CopyTo(stream);
-                }
-
-                repo.CambiarAvatar(usuarioAutenticado, usuario.Avatar);
-
-                TempData["Mensaje"] = "Avatar cambiado correctamente";
-            }
-            else
-            {
-                TempData["Mensaje"] = "No se seleccionó ningún archivo";
-            }
-
+            TempData["Error"] = "No se pudo encontrar el usuario autenticado";
             return RedirectToAction("Perfil");
         }
-        catch (Exception ex)
+        if (eliminarAvatar)
         {
-            TempData["Error"] = "Error al cambiar el avatar: " + ex.Message;
-            return RedirectToAction("Perfil");
+            Console.WriteLine("entró al if");
+            repo.EliminarAvatar(usuarioAutenticado);
+            TempData["Mensaje"] = "Avatar eliminado correctamente";
         }
+        else if (usuario.AvatarFile != null && usuario.AvatarFile.Length > 0)
+        {
+            string wwwPath = environment.WebRootPath;
+            string path = Path.Combine(wwwPath, "Uploads");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            string fileName = "avatar_" + Guid.NewGuid().ToString() + Path.GetExtension(usuario.AvatarFile.FileName);
+            string pathCompleto = Path.Combine(path, fileName);
+            usuario.Avatar = Path.Combine("/Uploads", fileName);
+
+            using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+            {
+                usuario.AvatarFile.CopyTo(stream);
+            }
+
+            repo.CambiarAvatar(usuarioAutenticado, usuario.Avatar);
+
+            TempData["Mensaje"] = "Avatar cambiado correctamente";
+        }
+        else
+        {
+            TempData["Mensaje"] = "No se seleccionó ningún archivo";
+        }
+
+        return RedirectToAction("Perfil");
     }
+    catch (Exception ex)
+    {
+        TempData["Error"] = "Error al cambiar el avatar: " + ex.Message;
+        return RedirectToAction("Perfil");
+    }
+}
+
 
 
 }

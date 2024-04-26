@@ -87,15 +87,7 @@ public class RepositorioUsuarios
 
     public int Alta(Usuario u)
     {
-        var res = -1;
-        bool flag = CorreoRepetido(u);
-
-        if (!flag)
-        {
-            res = -2;
-            return res;
-        }
-
+        int res = -1;
         using (var connection = new MySqlConnection(connectionString))
         {
             var sql = @$"INSERT INTO usuarios ({nameof(Usuario.Nombre)}, {nameof(Usuario.Apellido)}, {nameof(Usuario.Email)}, 
@@ -235,7 +227,6 @@ public class RepositorioUsuarios
         return correoRepetido;
     }
 
-
     public void CambiarClave(Usuario usuario, string nuevaClave)
     {
         using (var connection = new MySqlConnection(connectionString))
@@ -274,6 +265,22 @@ public class RepositorioUsuarios
         }
     }
 
+
+    public void EliminarAvatar(Usuario usuario)
+    {        
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            string query = "UPDATE Usuarios SET Avatar = '' WHERE Id = @Id";
+
+            connection.Open();
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Id", usuario.Id);
+                command.ExecuteNonQuery();
+            }
+        }
+
+    }
 
 
 }
